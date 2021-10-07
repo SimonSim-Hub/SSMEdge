@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.edge.turck.admin.sensorManagement">
+
+
+    <select id="selectSensorMasterList" parameterType="com.ssm.edge.turck.admin.sensorManagement.vo.SensorMasterVO" resultType="com.ssm.edge.turck.admin.sensorManagement.vo.SensorMasterVO">
+        SELECT (ROW_NUMBER() OVER (ORDER BY A.create_date DESC)) AS rowNum
+             , A.sensor_no AS sensorNo
+             , A.sensor_code AS sensorCode
+             , A.sensor_name AS sensorName
+             , A.sensor_fullname AS sensorFullname
+             , A.device_code AS deviceCode
+             , B.device_name AS deviceName
+             , B.location_code AS locationCode
+             , C.location_name AS locationName
+             , A.use_yn AS useYn
+             , A.create_date AS createDate
+             , A.create_user AS createUser
+             , A.update_date AS updateUser
+             , A.update_user AS updateUser
+          FROM turck_admin_sensor_master A
+          LEFT JOIN turck_admin_device_master B
+            ON A.device_code = B.device_code
+          LEFT JOIN turck_admin_location_master C
+            ON B.location_code = C.location_code
+         WHERE 1=1
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorName)">
+            AND A.sensor_name LIKE CONCAT('%', #{sensorName}, '%')
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+            AND A.sensor_code = #{sensorCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceCode)">
+            AND A.device_code = #{deviceCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+            AND C.location_code = #{locationCode}
+        </if>
+        ORDER BY A.create_date DESC
+    </select>
+
+    <insert id="insertSensorMasterInfo" parameterType="com.ssm.edge.turck.admin.sensorManagement.vo.SensorMasterVO">
+        INSERT INTO turck_admin_sensor_master(
+            sensor_no
+          , sensor_code
+          , sensor_name
+          , sensor_fullname
+          , device_code
+          , use_yn
+          , create_date
+          , create_user)
+        VALUES (
+            #{sensorNo}
+          , #{sensorCode}
+          , #{sensorName}
+          , #{sensorFullname}
+          , #{deviceCode}
+          , 1
+          , NOW()
+          , #{createUser});
+    </insert>
+
+    <update id="updateSensorMasterInfo" parameterType="com.ssm.edge.turck.admin.sensorManagement.vo.SensorMasterVO">
+        UPDATE turck_admin_sensor_master
+           SET update_date = NOW()
+             , update_user = #{updateUser}
+            <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorNo)">
+             , sensor_no = #{sensorNo}
+            </if>
+            <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorName)">
+             , sensor_name = #{sensorName}
+            </if>
+            <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorFullname)">
+             , sensor_fullname = #{sensorFullname}
+            </if>
+            <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceCode)">
+             , device_code = #{deviceCode}
+            </if>
+         WHERE sensor_code = #{sensorCode}
+    </update>
+
+    <delete id="deleteSensorMasterInfo" parameterType="com.ssm.edge.turck.admin.sensorManagement.vo.SensorMasterVO">
+        DELETE FROM turck_admin_sensor_master
+        WHERE sensor_code = #{sensorCode}
+    </delete>
+
+    <delete id="deleteSensorMasterByDeviceCode" parameterType="com.ssm.edge.turck.admin.sensorManagement.vo.SensorMasterVO">
+        DELETE FROM turck_admin_sensor_master
+        WHERE device_code = #{deviceCode}
+    </delete>
+
+    <select id="selectSensorCodeBySensorFullname" parameterType="String" resultType="String">
+        SELECT sensor_code AS sensorCode
+        FROM turck_admin_sensor_master
+        WHERE sensor_fullname =  #{sensorFullname}
+    </select>
+</mapper>

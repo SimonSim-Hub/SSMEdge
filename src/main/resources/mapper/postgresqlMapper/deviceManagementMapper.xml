@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.edge.turck.admin.deviceManagement">
+
+
+    <select id="selectDeviceMasterList" parameterType="com.ssm.edge.turck.admin.deviceManagement.vo.DeviceMasterVO" resultType="com.ssm.edge.turck.admin.deviceManagement.vo.DeviceMasterVO">
+        SELECT (ROW_NUMBER() OVER (ORDER BY A.create_date DESC)) AS rowNum
+             , A.device_no AS deviceNo
+             , A.device_code AS deviceCode
+             , A.device_name AS deviceName
+             , A.location_code AS locationCode
+             , B.location_name AS locationName
+             , A.use_yn AS useYn
+             , A.create_date AS createDate
+             , A.create_user AS createUser
+             , A.update_date AS updateDate
+             , A.update_user AS updateUser
+          FROM turck_admin_device_master A
+          LEFT JOIN turck_admin_location_master B
+            ON A.location_code = B.location_code
+         WHERE 1=1
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceName)">
+            AND A.device_name LIKE CONCAT('%', #{deviceName}, '%')
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+            AND A.location_code = #{locationCode}
+        </if>
+        ORDER BY A.create_date DESC
+    </select>
+
+    <insert id="insertDeviceMasterInfo" parameterType="com.ssm.edge.turck.admin.deviceManagement.vo.DeviceMasterVO">
+        INSERT INTO turck_admin_device_master(
+            device_no
+          , device_code
+          , device_name
+          , device_fullname
+          , location_code
+          , use_yn
+          , create_date
+          , create_user)
+        VALUES (
+            #{deviceNo}
+          , #{deviceCode}
+          , #{deviceName}
+          , #{deviceName}
+          , #{locationCode}
+          , 1
+          , NOW()
+          , #{createUser});
+    </insert>
+
+    <update id="updateDeviceMasterInfo" parameterType="com.ssm.edge.turck.admin.deviceManagement.vo.DeviceMasterVO">
+        UPDATE turck_admin_device_master
+           SET update_date = NOW()
+             , update_user = #{updateUser}
+            <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceNo)">
+             , device_no = #{deviceNo}
+            </if>
+            <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+             , location_code = #{locationCode}
+            </if>
+            <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceName)">
+             , device_name = #{deviceName}
+            </if>
+            <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceFullname)">
+             , device_fullname = #{deviceFullname}
+            </if>
+         WHERE device_code = #{deviceCode}
+    </update>
+
+    <delete id="deleteDeviceMasterInfo" parameterType="com.ssm.edge.turck.admin.deviceManagement.vo.DeviceMasterVO">
+        DELETE FROM turck_admin_device_master
+        WHERE device_code = #{deviceCode}
+    </delete>
+
+    <select id="selectDeviceCodeByDeviceFullname" parameterType="String" resultType="String">
+        SELECT device_code AS deviceCode
+        FROM turck_admin_device_master
+        WHERE device_fullname =  #{deviceFullname}
+    </select>
+</mapper>

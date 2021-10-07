@@ -1,0 +1,308 @@
+/* html 관련 설정 */
+.div-cursor {cursor: pointer;}
+
+.form-control:focus {
+    border-color: #007bff;
+}
+
+.width-50p {
+    width:50% !important;
+}
+
+.width-100p {
+    width:100% !important;
+}
+
+.font-size-45 {
+    font-size: 45px;
+}
+
+.min-height-170 {
+    min-height: 170px !important;
+}
+
+.min-height-300 {
+    min-height: 300px !important;
+}
+
+.font-weight-bold {
+    font-weight: bold !important;
+}
+
+.font-color-warning {
+    color:#ffc107 !important;
+}
+
+.font-color-Error {
+    color:#dc3545 !important;
+}
+
+.font-color-default {
+    color:#343a40 !important;
+}
+
+.no-margin-top {
+    margin-top: 0px !important;
+}
+
+/* 스크롤바 모양만 숨기기 */
+.hidden-scroll {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.hidden-scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+.jconfirm-content {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.jconfirm-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+/* 알람 팝업 관련 설정 js-common-alarm */
+#toast-container > div {
+    width: 600px !important;
+}
+#toast-container .toast-success {
+    background-color: #28a745;
+}
+#toast-container .toast-warning {
+    background-color: #ffc107;
+}
+#toast-container .toast-error {
+    background-color: #dc3545;
+}
+
+/* 정규식 관련 설정 js-common-validate */
+.ssm-validate-error {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+/* 갤러리 CSS */
+.filtr-item .colored.orange {
+    background-color: #f39c12;
+}
+.filtr-item .colored.green {
+    background-color: #3cd27b;
+}
+.filtr-item .colored.purple {
+    background-color: purple;
+}
+.filtr-item .colored {
+    border-radius: 3px;
+    color: #fff;
+    display: block;
+    font-size: 36px;
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
+    padding: 35px 0;
+}
+
+#example-select-all {
+    height: 20px !important;
+    width: 20px !important;
+}
+
+input[type=checkbox] {
+    height: 20px !important;
+    width: 20px !important;
+}
+
+/* Select2 */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #007bff !important;
+    border-color: #006fe6 !important;
+    color: #fff !important;
+    padding: 0 10px !important;
+    margin-top: .31rem !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: rgba(255,255,255,.7) !important;
+    float: right !important;
+    margin-left: 5px !important;
+    margin-right: -2px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 대시보드 카드 */
+body {
+    background: #ecf1f5;
+}
+
+.tile{
+    width: 100%;
+    background:#fff;
+    border-radius:5px;
+    box-shadow:0px 2px 3px -1px rgba(151, 171, 187, 0.7);
+    float:left;
+    transform-style: preserve-3d;
+    margin: 10px 5px;
+
+}
+
+.header{
+    border-bottom:1px solid #ebeff2;
+    padding:19px 0;
+    text-align:center;
+    color:#59687f;
+    font-size:19px;
+    position:relative;
+}
+
+.filtr-item {
+    max-width: 24.8%;
+}
+
+.banner-img img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.banner-img {
+    padding: 5px 5px 0;
+}
+
+.banner-img img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.dates{
+    border:1px solid #ebeff2;
+    border-radius:5px;
+    padding:20px 0px;
+    margin:10px 20px;
+    font-size:35px;
+    color:#28a745;
+    font-weight:600;
+    overflow:auto;
+}
+.dates div{
+    float:left;
+    width:50%;
+    text-align:center;
+    position:relative;
+}
+.dates strong,
+.stats strong{
+    display:block;
+    color:#343a40;
+    font-size:12px;
+    font-weight:700;
+}
+.dates span{
+    width:1px;
+    height:40px;
+    position:absolute;
+    right:0;
+    top:0;
+    background:#ebeff2;
+}
+.stats{
+    border-top:1px solid #ebeff2;
+    background:#f7f8fa;
+    overflow:auto;
+    padding:15px 0;
+    font-size:22px;
+    color:#59687f;
+    font-weight:600;
+    border-radius: 0 0 5px 5px;
+}
+.stats div{
+    border-right:1px solid #ebeff2;
+    width: 25%;
+    float:left;
+    text-align:center
+}
+
+.stats div:nth-of-type(3){border:none;}
+
+div.footer {
+    text-align: right;
+    position: relative;
+    margin: 20px 5px;
+}
+
+div.footer a.Cbtn{
+    padding: 10px 25px;
+    background-color: #DADADA;
+    color: #666;
+    margin: 10px 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+div.footer a.Cbtn-primary{
+    background-color: #17a2b8;
+    color: #FFF;
+}
+
+div.footer a.Cbtn-primary:hover{
+    background-color: #138496;
+}
+
+div.footer a.Cbtn-danger{
+    background-color: #007bff;
+    color: #FFF;
+}
+
+div.footer a.Cbtn-danger:hover{
+    background-color: #0069d9;
+}
+
+.filter-item {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/* c3 chart */
+.c3-ygrid-line line {
+    stroke: red;
+}
+.c3-ygrid-line.warning line {
+    stroke: #ffc107;
+}
+.c3-ygrid-line.error line {
+    stroke: #dc3545;
+}
+
+
+
+
+
+
+
+
+

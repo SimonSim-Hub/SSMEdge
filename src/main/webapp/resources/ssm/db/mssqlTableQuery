@@ -1,0 +1,40 @@
+USE [X_DAS_DB]
+GO
+
+/****** Object:  Table [dbo].[X_DAS_VIBRATION_SENSOR_LOW_DATA_WIDE_TABLE]    Script Date: 2021-09-13 오전 11:00:41 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[X_DAS_VIBRATION_SENSOR_LOW_DATA_WIDE_TABLE](
+	[otime] [datetime2](3) NOT NULL,
+	[sensor_code] [nvarchar](255) NULL,
+	[sensor_name] [nvarchar](255) NULL,
+	[sensor_fullname] [nvarchar](255) NOT NULL,
+	[device_code] [nvarchar](255) NULL,
+	[device_name] [nvarchar](255) NULL,
+	[location_code] [nvarchar](255) NULL,
+	[location_name] [nvarchar](255) NULL,
+	[z_axis_rms_velocity_mm_value] [float] NOT NULL,
+	[temperature_c_value] [float] NOT NULL,
+	[x_axis_rms_velocity_mm_value] [float] NOT NULL,
+	[z_axis_peak_acceleration_value] [float] NOT NULL,
+	[x_axis_peak_acceleration_value] [float] NOT NULL,
+	[z_axis_peak_velocity_component_frequency_value] [float] NOT NULL,
+	[x_axis_peak_velocity_component_frequency_value] [float] NOT NULL,
+	[z_axis_rms_acceleration_value] [float] NOT NULL,
+	[x_axis_rms_acceleration_value] [float] NOT NULL,
+	[z_axis_kurtosis_value] [float] NOT NULL,
+	[x_axis_kurtosis_value] [float] NOT NULL,
+	[z_axis_crest_factor_value] [float] NOT NULL,
+	[x_axis_crest_factor_value] [float] NOT NULL,
+	[z_axis_peak_velocity_mm_value] [float] NOT NULL,
+	[x_axis_peak_velocity_mm_value] [float] NOT NULL,
+	[z_axis_high_frequency_rms_acceleration_value] [float] NOT NULL,
+	[x_axis_high_frequency_rms_acceleration_value] [float] NULL
+) ON [PRIMARY]
+GO
+
+

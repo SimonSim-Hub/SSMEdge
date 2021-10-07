@@ -1,0 +1,391 @@
+-- Table: public.core_exception_handling_master
+
+-- DROP TABLE public.core_exception_handling_master;
+
+CREATE TABLE public.core_exception_handling_master
+(
+    user_id character varying(50) COLLATE pg_catalog."default",
+    error_code integer,
+    error_msg character varying(250) COLLATE pg_catalog."default",
+    user_comment character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    use_yn integer NOT NULL,
+    create_date timestamp without time zone NOT NULL,
+    create_user character varying(50) COLLATE pg_catalog."default",
+    update_date timestamp without time zone,
+    update_user character varying(50) COLLATE pg_catalog."default"
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.core_exception_handling_master
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.core_main_system_setting
+
+-- DROP TABLE public.core_main_system_setting;
+
+CREATE TABLE public.core_main_system_setting
+(
+    main_chart_quantity integer,
+    detail_chart_quantity integer,
+    report_chart_quantity integer
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.core_main_system_setting
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.core_main_timer_master
+
+-- DROP TABLE public.core_main_timer_master;
+
+CREATE TABLE public.core_main_timer_master
+(
+    timer_delay bigint
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.core_main_timer_master
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.core_system_user_master
+
+-- DROP TABLE public.core_system_user_master;
+
+CREATE TABLE public.core_system_user_master
+(
+    user_id character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    user_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    user_email character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    user_password character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    user_authority character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    use_yn integer NOT NULL,
+    create_date timestamp with time zone NOT NULL,
+    create_user character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    update_date timestamp with time zone,
+    update_user character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT common_user_master_pkey PRIMARY KEY (user_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.core_system_user_master
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.turck_admin_alarm_history_table
+
+-- DROP TABLE public.turck_admin_alarm_history_table;
+
+CREATE TABLE public.turck_admin_alarm_history_table
+(
+    alarm_code character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    sensor_code character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    alarm_status integer NOT NULL,
+    clear_status integer NOT NULL,
+    alarm_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    tag_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    clear_date timestamp with time zone,
+    confirm_status integer NOT NULL,
+    confirm_date timestamp with time zone,
+    confirm_user character varying(50) COLLATE pg_catalog."default",
+    use_yn integer NOT NULL,
+    create_date timestamp with time zone NOT NULL,
+    create_user character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    update_date timestamp with time zone,
+    update_user character varying(50) COLLATE pg_catalog."default"
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.turck_admin_alarm_history_table
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.turck_admin_alarm_master
+
+-- DROP TABLE public.turck_admin_alarm_master;
+
+CREATE TABLE public.turck_admin_alarm_master
+(
+    alarm_no integer NOT NULL,
+    tag_code character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    alarm_code character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    alarm_name character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    warning_value character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    alarm_value character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    alarm_status integer NOT NULL,
+    use_yn integer NOT NULL,
+    create_date timestamp with time zone NOT NULL,
+    create_user character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    update_date timestamp with time zone,
+    update_user character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT turck_admin_alarm_master_pkey PRIMARY KEY (alarm_code)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.turck_admin_alarm_master
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.turck_admin_device_master
+
+-- DROP TABLE public.turck_admin_device_master;
+
+CREATE TABLE public.turck_admin_device_master
+(
+    device_no integer,
+    device_code character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    device_name character varying(50) COLLATE pg_catalog."default",
+    location_code character varying(50) COLLATE pg_catalog."default",
+    use_yn integer NOT NULL,
+    create_date timestamp with time zone NOT NULL,
+    create_user character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    update_date timestamp with time zone,
+    update_user character varying(50) COLLATE pg_catalog."default",
+    device_fullname character varying COLLATE pg_catalog."default",
+    CONSTRAINT turck_admin_device_master_pkey PRIMARY KEY (device_code)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.turck_admin_device_master
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.turck_admin_location_master
+
+-- DROP TABLE public.turck_admin_location_master;
+
+CREATE TABLE public.turck_admin_location_master
+(
+    location_no integer,
+    location_code character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    location_name character varying(50) COLLATE pg_catalog."default",
+    factory_code character varying(50) COLLATE pg_catalog."default",
+    use_yn integer NOT NULL,
+    create_date timestamp with time zone NOT NULL,
+    create_user character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    update_date timestamp with time zone,
+    update_user character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT turck_admin_location_master_pkey PRIMARY KEY (location_code)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.turck_admin_location_master
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.turck_admin_sensor_master
+
+-- DROP TABLE public.turck_admin_sensor_master;
+
+CREATE TABLE public.turck_admin_sensor_master
+(
+    sensor_no integer,
+    sensor_code character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    sensor_name character varying(50) COLLATE pg_catalog."default",
+    sensor_fullname character varying(250) COLLATE pg_catalog."default",
+    device_code character varying(50) COLLATE pg_catalog."default",
+    use_yn integer NOT NULL,
+    create_date timestamp with time zone NOT NULL,
+    create_user character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    update_date timestamp with time zone,
+    update_user character varying(50) COLLATE pg_catalog."default",
+    tag_type character varying(5) COLLATE pg_catalog."default",
+    CONSTRAINT turck_admin_sensor_master_pkey PRIMARY KEY (sensor_code)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.turck_admin_sensor_master
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.turck_admin_tag_master
+
+-- DROP TABLE public.turck_admin_tag_master;
+
+CREATE TABLE public.turck_admin_tag_master
+(
+    tag_no integer,
+    tag_code character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    tag_name character varying(50) COLLATE pg_catalog."default",
+    tag_fullname character varying(250) COLLATE pg_catalog."default",
+    tag_type character varying(5) COLLATE pg_catalog."default",
+    sensor_code character varying(50) COLLATE pg_catalog."default",
+    use_yn integer NOT NULL,
+    create_date timestamp with time zone NOT NULL,
+    create_user character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    update_date timestamp with time zone,
+    update_user character varying(50) COLLATE pg_catalog."default",
+    tag_realname character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT tag_master_pkey PRIMARY KEY (tag_code)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.turck_admin_tag_master
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.x_das_vibration_sensor_low_cold_data_table
+
+-- DROP TABLE public.x_das_vibration_sensor_low_cold_data_table;
+
+CREATE TABLE public.x_das_vibration_sensor_low_cold_data_table
+(
+    otime timestamp(3) without time zone NOT NULL,
+    sensor_code character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    sensor_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    sensor_fullname character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    device_code character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    device_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    location_code character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    location_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_rms_velocity_mm_value real NOT NULL,
+    temperature_c_value real NOT NULL,
+    x_axis_rms_velocity_mm_value real NOT NULL,
+    z_axis_peak_acceleration_value real NOT NULL,
+    x_axis_peak_acceleration_value real NOT NULL,
+    z_axis_peak_velocity_component_frequency_value real NOT NULL,
+    x_axis_peak_velocity_component_frequency_value real NOT NULL,
+    z_axis_rms_acceleration_value real NOT NULL,
+    x_axis_rms_acceleration_value real NOT NULL,
+    z_axis_kurtosis_value real NOT NULL,
+    x_axis_kurtosis_value real NOT NULL,
+    z_axis_crest_factor_value real NOT NULL,
+    x_axis_crest_factor_value real NOT NULL,
+    z_axis_peak_velocity_mm_value real NOT NULL,
+    x_axis_peak_velocity_mm_value real NOT NULL,
+    z_axis_high_frequency_rms_acceleration_value real NOT NULL,
+    x_axis_high_frequency_rms_acceleration_value double precision
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.x_das_vibration_sensor_low_cold_data_table
+    OWNER to postgres;
+
+
+
+
+
+-- Table: public.x_das_vibration_sensor_low_data_wide_table
+
+-- DROP TABLE public.x_das_vibration_sensor_low_data_wide_table;
+
+CREATE TABLE public.x_das_vibration_sensor_low_data_wide_table
+(
+    otime timestamp(3) without time zone NOT NULL,
+    sensorfullname_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_rms_velocity_mm_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    temperature_c_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_rms_velocity_mm_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_peak_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_peak_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_peak_velocity_component_frequency_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_peak_velocity_component_frequency_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_rms_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_rms_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_kurtosis_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_kurtosis_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_crest_factor_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_crest_factor_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_peak_velocity_mm_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_peak_velocity_mm_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_high_frequency_rms_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_high_frequency_rms_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.x_das_vibration_sensor_low_data_wide_table
+    OWNER to postgres;
+-- Index: x_das_vibration_sensor_low_data_wide_table_idx1
+
+-- DROP INDEX public.x_das_vibration_sensor_low_data_wide_table_idx1;
+
+CREATE INDEX x_das_vibration_sensor_low_data_wide_table_idx1
+    ON public.x_das_vibration_sensor_low_data_wide_table USING btree
+    (otime ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+
+
+
+
+-- Table: public.x_das_vibration_sensor_low_hot_data_table
+
+-- DROP TABLE public.x_das_vibration_sensor_low_hot_data_table;
+
+CREATE TABLE public.x_das_vibration_sensor_low_hot_data_table
+(
+    otime timestamp(3) without time zone NOT NULL,
+    sensor_code character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    sensor_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    sensor_fullname character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    device_code character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    device_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    location_code character varying(255) COLLATE pg_catalog."default",
+    location_name character varying(255) COLLATE pg_catalog."default",
+    z_axis_rms_velocity_mm_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_rms_velocity_mm_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_peak_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_peak_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    temperature_c_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_peak_velocity_component_frequency_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_peak_velocity_component_frequency_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_rms_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_rms_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_kurtosis_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_kurtosis_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_crest_factor_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_crest_factor_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_peak_velocity_mm_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_peak_velocity_mm_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    z_axis_high_frequency_rms_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    x_axis_high_frequency_rms_acceleration_value character varying(255) COLLATE pg_catalog."default" NOT NULL
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.x_das_vibration_sensor_low_hot_data_table
+    OWNER to postgres;

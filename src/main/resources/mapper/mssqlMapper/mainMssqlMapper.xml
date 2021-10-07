@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.edge.core.main">
+    <insert id="insertVibrationSensorLowDataGrouppingList" parameterType="com.ssm.edge.core.main.vo.VibrationSensorLowDataVO">
+        INSERT INTO X_DAS_VIBRATION_SENSOR_LOW_DATA_WIDE_TABLE
+             ( otime
+             , sensor_code
+             , sensor_name
+             , sensor_fullname
+             , device_code
+             , device_name
+             , location_code
+             , location_name
+             , z_axis_rms_velocity_mm_value
+             , temperature_c_value
+             , x_axis_rms_velocity_mm_value
+             , z_axis_peak_acceleration_value
+             , x_axis_peak_acceleration_value
+             , z_axis_peak_velocity_component_frequency_value
+             , x_axis_peak_velocity_component_frequency_value
+             , z_axis_rms_acceleration_value
+             , x_axis_rms_acceleration_value
+             , x_axis_kurtosis_value
+             , z_axis_kurtosis_value
+             , z_axis_crest_factor_value
+             , x_axis_crest_factor_value
+             , z_axis_peak_velocity_mm_value
+             , x_axis_peak_velocity_mm_value
+             , z_axis_high_frequency_rms_acceleration_value
+             , x_axis_high_frequency_rms_acceleration_value )
+       VALUES
+            ( #{oTime}
+            , #{sensorCode}
+            , #{sensorName}
+            , #{sensorFullname}
+            , #{deviceCode}
+            , #{deviceName}
+            , #{locationCode}
+            , #{locationName}
+            , #{zAxisRmsVelocityMmValue}
+            , #{temperatureCValue}
+            , #{xAxisRmsVelocityMmValue}
+            , #{zAxisPeakAccelerationValue}
+            , #{xAxisPeakAccelerationValue}
+            , #{zAxisPeakVelocityComponentFrequencyValue}
+            , #{xAxisPeakVelocityComponentFrequencyValue}
+            , #{zAxisRmsAccelerationValue}
+            , #{xAxisRmsAccelerationValue}
+            , #{xAxisKurtosisValue}
+            , #{zAxisKurtosisValue}
+            , #{zAxisCrestFactorValue}
+            , #{xAxisCrestFactorValue}
+            , #{zAxisPeakVelocityMmValue}
+            , #{xAxisPeakVelocityMmValue}
+            , #{zAxisHighFrequencyRmsAccelerationValue}
+            , #{xAxisHighFrequencyRmsAccelerationValue} )
+    </insert>
+
+    <select id="selectVibrationSensorReportDataList" parameterType="HashMap" resultType="com.ssm.edge.core.main.vo.VibrationSensorLowDataVO">
+         SELECT (ROW_NUMBER() OVER (ORDER BY A.otime DESC)) AS rowNum
+              , A.oTime AS oTime
+              , A.oTimeStr AS oTimeStr
+              , A.sensor_code AS sensorCode
+              , A.sensor_name AS sensorName
+              , A.sensor_fullname AS sensorFullname
+              , A.device_code AS deviceCode
+              , A.device_name AS deviceName
+              , A.location_code AS locationCode
+              , A.location_name AS locationName
+              , A.x_axis_rms_velocity_mm_value AS xAxisRmsVelocityMmValue
+              , A.z_axis_rms_velocity_mm_value AS zAxisRmsVelocityMmValue
+              , A.z_axis_peak_acceleration_value AS xAxisPeakAccelerationValue
+              , A.x_axis_peak_acceleration_value AS zAxisPeakAccelerationValue
+              , A.temperature_c_value AS temperatureCValue
+              , A.z_axis_peak_velocity_component_frequency_value AS zAxisPeakVelocityComponentFrequencyValue
+              , A.x_axis_peak_velocity_component_frequency_value AS xAxisPeakVelocityComponentFrequencyValue
+              , A.z_axis_rms_acceleration_value AS zAxisRmsAccelerationValue
+              , A.x_axis_rms_acceleration_value AS xAxisRmsAccelerationValue
+              , A.x_axis_kurtosis_value AS zAxisKurtosisValue
+              , A.z_axis_kurtosis_value AS xAxisKurtosisValue
+              , A.z_axis_crest_factor_value AS zAxisCrestFactorValue
+              , A.x_axis_crest_factor_value AS xAxisCrestFactorValue
+              , A.z_axis_peak_velocity_mm_value AS zAxisPeakVelocityMmValue
+              , A.x_axis_peak_velocity_mm_value AS xAxisPeakVelocityMmValue
+              , A.z_axis_high_frequency_rms_acceleration_value AS zAxisHighFrequencyRmsAccelerationValue
+              , A.x_axis_high_frequency_rms_acceleration_value AS xAxisHighFrequencyRmsAccelerationValue
+         FROM (
+              SELECT CONVERT(CHAR(23), otime,21) AS oTime
+                   , CONVERT(CHAR(23), otime,21) AS oTimeStr
+                   , sensor_code
+                   , sensor_name
+                   , sensor_fullname
+                   , device_code
+                   , device_name
+                   , location_code
+                   , location_name
+                   , ROUND(z_axis_rms_velocity_mm_value, 3, 0) AS z_axis_rms_velocity_mm_value
+                   , ROUND(temperature_c_value, 3, 0) AS temperature_c_value
+                   , ROUND(x_axis_rms_velocity_mm_value, 3, 0) AS x_axis_rms_velocity_mm_value
+                   , ROUND(z_axis_peak_acceleration_value, 3, 0) AS z_axis_peak_acceleration_value
+                   , ROUND(x_axis_peak_acceleration_value, 3, 0) AS x_axis_peak_acceleration_value
+                   , ROUND(z_axis_peak_velocity_component_frequency_value, 3, 0) AS z_axis_peak_velocity_component_frequency_value
+                   , ROUND(x_axis_peak_velocity_component_frequency_value, 3, 0) AS x_axis_peak_velocity_component_frequency_value
+                   , ROUND(z_axis_rms_acceleration_value, 3, 0) AS z_axis_rms_acceleration_value
+                   , ROUND(x_axis_rms_acceleration_value, 3, 0) AS x_axis_rms_acceleration_value
+                   , ROUND(z_axis_kurtosis_value, 3, 0) AS z_axis_kurtosis_value
+                   , ROUND(x_axis_kurtosis_value, 3, 0) AS x_axis_kurtosis_value
+                   , ROUND(z_axis_crest_factor_value, 3, 0) AS z_axis_crest_factor_value
+                   , ROUND(x_axis_crest_factor_value, 3, 0) AS x_axis_crest_factor_value
+                   , ROUND(x_axis_peak_velocity_mm_value, 3, 0) AS x_axis_peak_velocity_mm_value
+                   , ROUND(z_axis_peak_velocity_mm_value, 3, 0) AS z_axis_peak_velocity_mm_value
+                   , ROUND(z_axis_high_frequency_rms_acceleration_value, 3, 0) AS z_axis_high_frequency_rms_acceleration_value
+                   , ROUND(x_axis_high_frequency_rms_acceleration_value, 3, 0) AS x_axis_high_frequency_rms_acceleration_value
+              FROM X_DAS_VIBRATION_SENSOR_LOW_DATA_WIDE_TABLE WIDTH(NOLOCK)
+              WHERE oTime >= #{startDate}
+                AND #{endDate} > oTime
+              <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+                AND location_code = #{locationCode}
+              </if>
+              <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceCode)">
+                AND device_code = #{deviceCode}
+              </if>
+              <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+                AND sensor_code = #{sensorCode}
+              </if> ) A
+         ORDER BY A.oTime ASC
+    </select>
+
+     <select id="selectVibrationSensorReportDataListCountAndDate" parameterType="com.ssm.edge.core.main.vo.CountAndDateVO" resultType="com.ssm.edge.core.main.vo.CountAndDateVO">
+          SELECT COUNT(*) AS dataCount
+               , MIN(oTime) AS startDate
+               , MAX(oTime) AS endDate
+          FROM X_DAS_VIBRATION_SENSOR_LOW_DATA_WIDE_TABLE WIDTH(NOLOCK)
+          WHERE oTime >= #{startDate}
+            AND #{endDate} > oTime
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+            AND location_code = #{locationCode}
+          </if>
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceCode)">
+            AND device_code = #{deviceCode}
+          </if>
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+            AND sensor_code = #{sensorCode}
+          </if>
+     </select>
+
+     <select id="selectVibrationSensorReportDataLastCountList" parameterType="HashMap" resultType="com.ssm.edge.core.main.vo.VibrationSensorLowDataVO">
+          SELECT (ROW_NUMBER() OVER (ORDER BY A.otime DESC)) AS rowNum
+          , A.oTime AS oTime
+          , A.oTimeStr AS oTimeStr
+          , A.sensor_code AS sensorCode
+          , A.sensor_name AS sensorName
+          , A.sensor_fullname AS sensorFullname
+          , A.device_code AS deviceCode
+          , A.device_name AS deviceName
+          , A.location_code AS locationCode
+          , A.location_name AS locationName
+          , A.x_axis_rms_velocity_mm_value AS xAxisRmsVelocityMmValue
+          , A.z_axis_rms_velocity_mm_value AS zAxisRmsVelocityMmValue
+          , A.z_axis_peak_acceleration_value AS xAxisPeakAccelerationValue
+          , A.x_axis_peak_acceleration_value AS zAxisPeakAccelerationValue
+          , A.temperature_c_value AS temperatureCValue
+          , A.z_axis_peak_velocity_component_frequency_value AS zAxisPeakVelocityComponentFrequencyValue
+          , A.x_axis_peak_velocity_component_frequency_value AS xAxisPeakVelocityComponentFrequencyValue
+          , A.z_axis_rms_acceleration_value AS zAxisRmsAccelerationValue
+          , A.x_axis_rms_acceleration_value AS xAxisRmsAccelerationValue
+          , A.x_axis_kurtosis_value AS zAxisKurtosisValue
+          , A.z_axis_kurtosis_value AS xAxisKurtosisValue
+          , A.z_axis_crest_factor_value AS zAxisCrestFactorValue
+          , A.x_axis_crest_factor_value AS xAxisCrestFactorValue
+          , A.z_axis_peak_velocity_mm_value AS zAxisPeakVelocityMmValue
+          , A.x_axis_peak_velocity_mm_value AS xAxisPeakVelocityMmValue
+          , A.z_axis_high_frequency_rms_acceleration_value AS zAxisHighFrequencyRmsAccelerationValue
+          , A.x_axis_high_frequency_rms_acceleration_value AS xAxisHighFrequencyRmsAccelerationValue
+          FROM (
+          SELECT TOP(CONVERT(INT,#{dataLastCount})) CONVERT(CHAR(23), otime,21) AS oTime
+          , CONVERT(CHAR(23), otime,21) AS oTimeStr
+          , sensor_code
+          , sensor_name
+          , sensor_fullname
+          , device_code
+          , device_name
+          , location_code
+          , location_name
+          , ROUND(z_axis_rms_velocity_mm_value, 3, 0) AS z_axis_rms_velocity_mm_value
+          , ROUND(temperature_c_value, 3, 0) AS temperature_c_value
+          , ROUND(x_axis_rms_velocity_mm_value, 3, 0) AS x_axis_rms_velocity_mm_value
+          , ROUND(z_axis_peak_acceleration_value, 3, 0) AS z_axis_peak_acceleration_value
+          , ROUND(x_axis_peak_acceleration_value, 3, 0) AS x_axis_peak_acceleration_value
+          , ROUND(z_axis_peak_velocity_component_frequency_value, 3, 0) AS z_axis_peak_velocity_component_frequency_value
+          , ROUND(x_axis_peak_velocity_component_frequency_value, 3, 0) AS x_axis_peak_velocity_component_frequency_value
+          , ROUND(z_axis_rms_acceleration_value, 3, 0) AS z_axis_rms_acceleration_value
+          , ROUND(x_axis_rms_acceleration_value, 3, 0) AS x_axis_rms_acceleration_value
+          , ROUND(z_axis_kurtosis_value, 3, 0) AS z_axis_kurtosis_value
+          , ROUND(x_axis_kurtosis_value, 3, 0) AS x_axis_kurtosis_value
+          , ROUND(z_axis_crest_factor_value, 3, 0) AS z_axis_crest_factor_value
+          , ROUND(x_axis_crest_factor_value, 3, 0) AS x_axis_crest_factor_value
+          , ROUND(x_axis_peak_velocity_mm_value, 3, 0) AS x_axis_peak_velocity_mm_value
+          , ROUND(z_axis_peak_velocity_mm_value, 3, 0) AS z_axis_peak_velocity_mm_value
+          , ROUND(z_axis_high_frequency_rms_acceleration_value, 3, 0) AS z_axis_high_frequency_rms_acceleration_value
+          , ROUND(x_axis_high_frequency_rms_acceleration_value, 3, 0) AS x_axis_high_frequency_rms_acceleration_value
+          FROM X_DAS_VIBRATION_SENSOR_LOW_DATA_WIDE_TABLE WIDTH(NOLOCK)
+          WHERE oTime >= #{startDate}
+          AND #{endDate} > oTime
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+               AND location_code = #{locationCode}
+          </if>
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceCode)">
+               AND device_code = #{deviceCode}
+          </if>
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+               AND sensor_code = #{sensorCode}
+          </if> ) A
+          ORDER BY A.oTime ASC
+     </select>
+</mapper>

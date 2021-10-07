@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.edge.turck.admin.alarmManagement">
+    <select id="selectAlarmMasterList" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO" resultType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
+        SELECT (ROW_NUMBER() OVER (ORDER BY A.create_date DESC)) AS rowNum
+            ,A.alarm_no AS alarmNo
+            , A.alarm_code AS alarmCode
+            , A.alarm_name AS alarmName
+            , A.tag_code AS tagCode
+            , B.tag_name AS tagName
+            , B.tag_realname AS tagRealname
+            , B.sensor_code AS sensorCode
+            , C.sensor_name AS sensorName
+            , C.device_code AS deviceCode
+            , D.device_name AS deviceName
+            , D.location_code AS locationCode
+            , E.location_name AS locationName
+            , A.warning_value AS warningValue
+            , A.alarm_value AS alarmValue
+            , A.alarm_status AS alarmStatus
+            , CASE WHEN A.alarm_status = 0 THEN '정상'
+                WHEN A.alarm_status = 1 THEN '경고'
+                WHEN A.alarm_status = 2 THEN '알람'
+              END AS alarmStatusStr
+            , A.use_yn AS useYn
+            , A.create_date AS createDate
+            , A.create_user AS createUser
+            , A.update_date AS updateDate
+            , A.update_user AS updateUser
+        FROM public.turck_admin_alarm_master A
+        LEFT JOIN turck_admin_tag_master B
+        ON A.tag_code = B.tag_code
+        LEFT JOIN turck_admin_sensor_master C
+        ON B.sensor_code = C.sensor_code
+        LEFT JOIN turck_admin_device_master D
+        ON C.device_code = D.device_code
+        LEFT JOIN turck_admin_location_master E
+        ON D.location_code = E.location_code
+        WHERE 1=1
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagName)">
+            AND B.tag_name = #{tagName}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagCode)">
+            AND B.tag_code = #{tagCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+            AND C.sensor_code = #{sensorCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceCode)">
+            AND D.device_code = #{deviceCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+            AND E.location_code = #{locationCode}
+        </if>
+        <if test="alarmStatus != null and alarmStatus > 0">
+            AND A.alarm_status = #{alarmStatus}
+        </if>
+        ORDER BY A.create_date DESC
+    </select>
+
+    <insert id="insertAlarmMasterInfo" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
+        INSERT INTO turck_admin_alarm_master(
+              alarm_no
+            , tag_code
+            , alarm_code
+            , alarm_name
+            , warning_value
+            , alarm_value
+            , alarm_status
+            , use_yn
+            , create_date
+            , create_user)
+        VALUES (
+               #{alarmNo}
+            , #{tagCode}
+            , #{alarmCode}
+            , #{alarmName}
+            , #{warningValue}
+            , #{alarmValue}
+            , #{alarmStatus}
+            , 1
+            , NOW()
+            , #{createUser})
+    </insert>
+
+    <select id="selectAlarmCodeBytagCode" parameterType="String" resultType="String">
+        SELECT alarm_code AS alarmCode
+        FROM turck_admin_alarm_master
+        WHERE tag_code =  #{tagCode}
+    </select>
+
+    <update id="updateAlarmMasterInfo" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
+        UPDATE turck_admin_alarm_master
+        SET update_date = NOW()
+        , update_user = #{updateUser}
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(alarmNo)">
+        , alarm_no = #{alarmNo}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(alarmName)">
+        , alarm_name = #{alarmName}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagCode)">
+        , tag_code = #{tagCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(warningValue)">
+        , warning_value = #{warningValue}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(alarmValue)">
+        , alarm_value = #{alarmValue}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(alarmStatus)">
+        , alarm_status = #{alarmStatus}
+        </if>
+        WHERE alarm_code = #{alarmCode}
+    </update>
+
+    <select id="selectRealtimeAlarmMasterList" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO" resultType="com.ssm.edge.turck.admin.alarmManagement.vo.RealtimeAlarmMasterVO">
+        SELECT B.tag_name AS tagName
+        , B.sensor_code AS sensorCode
+        , A.warning_value AS warningValue
+        , A.alarm_value AS alarmValue
+        FROM public.turck_admin_alarm_master A
+        LEFT JOIN turck_admin_tag_master B
+        ON A.tag_code = B.tag_code
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+        WHERE sensor_code = #{sensorCode}
+        </if>
+        ORDER BY A.create_date DESC
+    </select>
+
+    <select id="selectAlarmStatus" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO" resultType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
+        SELECT alarm_status
+        FROM turck_admin_alarm_master
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(alarmCode)">
+            WHERE alarm_code = #{alarmCode}
+        </if>
+    </select>
+
+    <select id="selectAlarmHistoryMaxAlarmStatus" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO" resultType="int">
+        SELECT COALESCE(MAX(alarm_status), 0) AS alarmStatus
+        FROM turck_admin_alarm_history_table
+       WHERE alarm_code = #{alarmCode}
+         AND clear_status = 1
+    </select>
+
+    <insert id="insertAlarmHistory" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
+        INSERT INTO turck_admin_alarm_history_table(
+                 alarm_code
+               , sensor_code
+               , alarm_status
+               , alarm_value
+               , tag_value
+               , clear_status
+               , confirm_status
+               , use_yn
+               , create_date
+               , create_user)
+        VALUES (
+                 #{alarmCode}
+               , #{sensorCode}
+               , #{alarmStatus}
+               , #{historyAlarmValue}
+               , #{historyTagValue}
+               , 1
+               , 1
+               , 1
+               , NOW()
+               , #{createUser})
+    </insert>
+
+    <update id="updateAlarmHistoryClearStatus" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
+        UPDATE turck_admin_alarm_history_table
+        SET update_date = NOW()
+          , update_user = #{updateUser}
+          , clear_status = 0
+          , clear_date = NOW()
+        WHERE alarm_code = #{alarmCode}
+          AND alarm_status > #{alarmStatus}
+    </update>
+
+    <select id="selectAlarmHistoryStartEndDate" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterSelectVO" resultType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
+        SELECT MIN(A.create_date) AS startDate
+             , MAX(A.create_date) AS endDate
+        FROM public.turck_admin_alarm_history_table A
+        LEFT JOIN turck_admin_alarm_master B
+        ON A.alarm_code = B.alarm_code
+        LEFT JOIN turck_admin_tag_master C
+        ON B.tag_code = C.tag_code
+        LEFT JOIN turck_admin_sensor_master D
+        ON C.sensor_code = D.sensor_code
+        LEFT JOIN turck_admin_device_master E
+        ON D.device_code = E.device_code
+        LEFT JOIN turck_admin_location_master F
+        ON E.location_code = F.location_code
+        WHERE 1=1
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagCode)">
+            AND C.tag_code = #{tagCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+            AND D.sensor_code = #{sensorCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceCode)">
+            AND E.device_code = #{deviceCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+            AND F.location_code = #{locationCode}
+        </if>
+        <if test="alarmStatus != null and alarmStatus > 0">
+            AND A.alarm_status = #{alarmStatus}
+        </if>
+            AND A.confirm_status = 1
+    </select>
+
+    <select id="selectAlarmHistoryList" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterSelectVO" resultType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
+        SELECT A.alarm_code AS alarmCode
+             , B.alarm_name AS alarmName
+             , C.tag_name AS tagName
+             , D.sensor_name AS sensorName
+             , E.device_name AS deviceName
+             , F.location_name AS locationName
+             , A.alarm_status AS alarmStatus
+             , CASE WHEN A.alarm_status = 0 THEN '정상'
+                WHEN A.alarm_status = 1 THEN '경고'
+                WHEN A.alarm_status = 2 THEN '알람'
+                END AS alarmStatusStr
+             , A.clear_status AS clearStatus
+             , CASE WHEN A.clear_status = 0 THEN '해제'
+                WHEN A.clear_status = 1 THEN '등록'
+                END AS clearStatusStr
+             , A.alarm_value AS alarmValue
+             , A.tag_value AS tagValue
+             , A.clear_date AS clearDate
+             , A.confirm_status AS confirmStatus
+             , CASE WHEN A.confirm_status = 0 THEN '확인'
+                WHEN A.confirm_status = 1 THEN '미확인'
+                END AS confirmStatusStr
+             , A.confirm_date AS confirmDate
+             , A.confirm_user AS confirmUser
+             , A.use_yn AS useYn
+             , A.create_date AS createDate
+             , A.create_user AS createUser
+             , A.update_date AS updateDate
+             , A.update_user AS updateUser
+             , G.user_name AS userName
+         FROM public.turck_admin_alarm_history_table A
+         LEFT JOIN turck_admin_alarm_master B
+           ON A.alarm_code = B.alarm_code
+         LEFT JOIN turck_admin_tag_master C
+           ON B.tag_code = C.tag_code
+         LEFT JOIN turck_admin_sensor_master D
+           ON C.sensor_code = D.sensor_code
+         LEFT JOIN turck_admin_device_master E
+           ON D.device_code = E.device_code
+         LEFT JOIN turck_admin_location_master F
+           ON E.location_code = F.location_code
+         LEFT JOIN core_system_user_master G
+           ON A.update_user = G.user_id
+        WHERE 1=1
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagCode)">
+            AND C.tag_code = #{tagCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+            AND D.sensor_code = #{sensorCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceCode)">
+            AND E.device_code = #{deviceCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+            AND F.location_code = #{locationCode}
+        </if>
+        <if test="alarmStatus != null and alarmStatus > 0">
+            AND A.alarm_status = #{alarmStatus}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(startDate)">
+            AND A.create_date >= TO_TIMESTAMP(#{startDate}, 'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(endDate)">
+            AND TO_TIMESTAMP(#{endDate}, 'YYYY-MM-DD HH24:MI:SS') > A.create_date
+        </if>
+        <if test="confirmStatus != null and confirmStatus > -1">
+            AND A.confirm_status = #{confirmStatus}
+        </if>
+        ORDER BY A.create_date DESC
+    </select>
+
+    <update id="updateAlarmHistoryConfirmStatus" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterSelectVO">
+        UPDATE turck_admin_alarm_history_table
+        SET update_date = NOW()
+          , update_user = #{updateUser}
+          , confirm_status = 0
+          , confirm_date = NOW()
+        WHERE sensor_code = #{sensorCode}
+    </update>
+
+    <select id="selectAlarmSensorCount" resultType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterSelectVO">
+        SELECT Z.alarmStatus AS alarmStatus
+             , COUNT(*) AS alarmCount
+        FROM (
+             SELECT MAX(alarm_status) AS alarmStatus
+                  , C.sensor_code
+             FROM turck_admin_alarm_master A
+                      LEFT JOIN turck_admin_tag_master B
+                                ON A.tag_code = B.tag_code
+                      LEFT JOIN turck_admin_sensor_master C
+                                ON B.sensor_code = C.sensor_code
+             GROUP BY C.sensor_code ) Z
+        GROUP BY Z.alarmStatus
+    </select>
+</mapper>

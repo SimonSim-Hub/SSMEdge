@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.edge.turck.admin.tagManagement">
+    <select id="selectTagMasterList" parameterType="com.ssm.edge.turck.admin.tagManagement.vo.TagMasterVO" resultType="com.ssm.edge.turck.admin.tagManagement.vo.TagMasterVO">
+        SELECT (ROW_NUMBER() OVER (ORDER BY A.create_date DESC)) AS rowNum
+             , A.tag_no AS tagNo
+             , A.tag_type AS tagType
+             , A.tag_code AS tagCode
+             , A.tag_name AS tagName
+             , A.tag_realname AS tagRealname
+             , A.tag_fullname AS tagFullname
+             , A.sensor_code AS sensorCode
+             , B.sensor_name AS sensorName
+             , B.device_code AS deviceCode
+             , C.device_name AS deviceName
+             , C.location_code AS locationCode
+             , D.location_name AS locationName
+             , A.use_yn AS useYn
+             , A.create_date AS createDate
+             , A.create_user AS createUser
+             , A.update_date AS updateDate
+             , A.update_user AS updateUser
+          FROM turck_admin_tag_master A
+          LEFT JOIN turck_admin_sensor_master B
+            ON A.sensor_code = B.sensor_code
+          LEFT JOIN turck_admin_device_master C
+            ON B.device_code = C.device_code
+          LEFT JOIN turck_admin_location_master D
+            ON C.location_code = D.location_code
+         WHERE 1=1
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagName)">
+            AND A.tag_name LIKE CONCAT('%', #{tagName}, '%')
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagRealname)">
+            AND A.tag_realname LIKE CONCAT('%', #{tagRealname}, '%')
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagType)">
+            AND A.tag_type = #{tagType}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(locationCode)">
+            AND C.location_code = #{locationCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(deviceCode)">
+            AND B.device_code = #{deviceCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+            AND A.sensor_code = #{sensorCode}
+        </if>
+        ORDER BY A.create_date DESC
+    </select>
+
+    <insert id="insertTagMasterInfo" parameterType="com.ssm.edge.turck.admin.tagManagement.vo.TagMasterVO">
+        INSERT INTO turck_admin_tag_master(
+            tag_no
+          , tag_type
+          , tag_code
+          , tag_name
+          , tag_fullname
+          , tag_realname
+          , sensor_code
+          , use_yn
+          , create_date
+          , create_user)
+        VALUES (
+            #{tagNo}
+          , #{tagType}
+          , #{tagCode}
+          , #{tagName}
+          , #{tagFullname}
+          , #{tagRealname}
+          , #{sensorCode}
+          , 1
+          , NOW()
+          , #{createUser})
+    </insert>
+
+    <update id="updateTagMasterInfo" parameterType="com.ssm.edge.turck.admin.tagManagement.vo.TagMasterVO">
+        UPDATE turck_admin_tag_master
+        SET update_date = NOW()
+          , update_user = #{updateUser}
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagNo)">
+          , tag_no = #{tagNo}
+          </if>
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagName)">
+          , tag_name = #{tagName}
+          </if>
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagRealname)">
+          , tag_realname = #{tagRealname}
+          </if>
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagFullname)">
+          , tag_fullname = #{tagFullname}
+          </if>
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagType)">
+          , tag_type = #{tagType}
+          </if>
+          <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+          , sensor_code = #{sensorCode}
+          </if>
+        WHERE tag_code = #{tagCode}
+    </update>
+
+    <delete id="deleteTagMasterInfo" parameterType="com.ssm.edge.turck.admin.tagManagement.vo.TagMasterVO">
+        DELETE FROM turck_admin_tag_master
+        WHERE 1=1
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagCode)">
+            AND tag_code = #{tagCode}
+        </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(sensorCode)">
+            AND sensor_code = #{sensorCode}
+        </if>
+    </delete>
+
+    <select id="selectTagCount" parameterType="com.ssm.edge.turck.admin.tagManagement.vo.TagMasterVO" resultType="com.ssm.edge.turck.admin.tagManagement.vo.TagMasterVO">
+        SELECT (COUNT(*)+1) AS tagNo
+          FROM turck_admin_tag_master
+    </select>
+
+    <delete id="deleteTagMasterByDeviceCode" parameterType="com.ssm.edge.turck.admin.tagManagement.vo.TagMasterVO">
+        DELETE
+          FROM turck_admin_tag_master
+         WHERE sensor_code IN (SELECT sensor_code
+                                 FROM turck_admin_sensor_master A
+                                 LEFT JOIN turck_admin_tag_master B
+                                   ON A.sensor_code = B.sensor_code
+                                WHERE B.device_code = #{deviceCode})
+    </delete>
+
+    <delete id="deleteTagMasterBySensorCode" parameterType="com.ssm.edge.turck.admin.tagManagement.vo.TagMasterVO">
+        DELETE FROM turck_admin_tag_master
+        WHERE sensor_code = #{sensorCode}
+    </delete>
+
+    <select id="selectTagCodeByTagFullname" parameterType="String" resultType="String">
+        SELECT tag_code AS tagCode
+          FROM turck_admin_tag_master
+         WHERE tag_fullname =  #{tagFullname}
+    </select>
+</mapper>

@@ -1,0 +1,53 @@
+Manifest-Version: 1.0
+Main-Class: com.ssm.edge.SSMEdge
+Class-Path: ecj-3.18.0.jar spring-boot-starter-2.4.2.jar tomcat-embed-el
+ -9.0.41.jar spring-boot-configuration-processor-2.4.2.jar lang-tag-1.4.
+ 4.jar jcip-annotations-1.0-1.jar gson-2.8.6.jar poi-ooxml-4.1.2.jar oau
+ th2-oidc-sdk-8.23.1.jar jakarta.xml.bind-api-2.3.3.jar commons-fileuplo
+ ad-1.4.jar jackson-module-parameter-names-2.11.4.jar mybatis-3.5.6.jar 
+ jandex-2.1.3.Final.jar spring-security-oauth2-core-5.4.2.jar spring-dat
+ a-relational-2.1.3.jar spring-websocket-5.3.3.jar spring-expression-5.3
+ .3.jar commons-compress-1.19.jar logback-core-1.2.3.jar byte-buddy-1.10
+ .19.jar netty-codec-4.1.58.Final.jar content-type-2.1.jar snakeyaml-1.2
+ 7.jar log4j-to-slf4j-2.13.3.jar hibernate-commons-annotations-5.1.2.Fin
+ al.jar jakarta.el-3.0.3.jar spring-boot-starter-security-2.4.2.jar spri
+ ng-tx-5.3.3.jar netty-buffer-4.1.58.Final.jar checker-qual-3.5.0.jar ja
+ vassist-3.27.0-GA.jar jakarta.mail-1.6.5.jar spring-boot-starter-loggin
+ g-2.4.2.jar spring-aop-5.3.3.jar spring-boot-starter-web-2.4.2.jar myba
+ tis-spring-boot-autoconfigure-2.1.4.jar jackson-databind-2.11.4.jar poi
+ -4.1.2.jar logback-classic-1.2.3.jar spring-boot-starter-json-2.4.2.jar
+  tomcat-embed-core-9.0.41.jar jackson-core-2.11.4.jar commons-collectio
+ ns4-4.4.jar lombok-1.18.16.jar curvesapi-1.06.jar poi-ooxml-schemas-4.1
+ .2.jar SparseBitSet-1.2.jar spring-security-oauth2-client-5.4.2.jar net
+ ty-codec-http-4.1.58.Final.jar spring-context-5.3.3.jar spring-beans-5.
+ 3.3.jar spring-boot-starter-aop-2.4.2.jar accessors-smart-1.2.jar sprin
+ g-boot-starter-websocket-2.4.2.jar postgresql-42.2.18.jar jakarta.activ
+ ation-1.2.2.jar spring-web-5.3.3.jar junit-4.13.1.jar netty-transport-4
+ .1.58.Final.jar tomcat-embed-jasper-9.0.41.jar spring-core-5.3.3.jar ja
+ ckson-datatype-jsr310-2.11.4.jar json-smart-2.3.jar netty-resolver-4.1.
+ 58.Final.jar netty-transport-native-epoll-4.1.58.Final.jar jakarta.tran
+ saction-api-1.3.3.jar json-simple-1.1.1.jar netty-handler-4.1.58.Final.
+ jar tomcat-embed-websocket-9.0.41.jar netty-socketio-1.7.19.jar commons
+ -math3-3.6.1.jar jackson-datatype-jdk8-2.11.4.jar spring-aspects-5.3.3.
+ jar jakarta.persistence-api-2.2.3.jar jakarta.annotation-api-1.3.5.jar 
+ dom4j-2.1.3.jar spring-security-core-5.4.2.jar spring-orm-5.3.3.jar ham
+ crest-2.2.jar spring-data-jpa-2.4.3.jar jakarta.activation-api-1.2.2.ja
+ r aspectjweaver-1.9.6.jar slf4j-api-1.7.30.jar spring-security-web-5.4.
+ 2.jar classmate-1.5.1.jar mybatis-spring-boot-starter-2.1.4.jar spring-
+ security-taglibs-5.4.5.jar mssql-jdbc-8.4.1.jre8.jar spring-security-co
+ nfig-5.4.2.jar antlr-2.7.7.jar spring-webmvc-5.3.3.jar spring-boot-star
+ ter-data-jdbc-2.4.2.jar asm-5.0.4.jar netty-transport-native-unix-commo
+ n-4.1.58.Final.jar jboss-logging-3.4.1.Final.jar istack-commons-runtime
+ -3.0.11.jar jul-to-slf4j-1.7.30.jar hamcrest-core-2.2.jar commons-codec
+ -1.15.jar tomcat-annotations-api-9.0.41.jar spring-jcl-5.3.3.jar Hikari
+ CP-3.4.5.jar spring-boot-starter-oauth2-client-2.4.2.jar spring-boot-2.
+ 4.2.jar modelmapper-2.3.6.jar jackson-annotations-2.11.4.jar netty-comm
+ on-4.1.58.Final.jar spring-boot-devtools-2.4.2.jar jaxb-runtime-2.3.3.j
+ ar spring-boot-autoconfigure-2.4.2.jar spring-data-jdbc-2.1.3.jar hiber
+ nate-core-5.4.27.Final.jar mybatis-spring-2.0.6.jar nimbus-jose-jwt-9.1
+ .3.jar spring-messaging-5.3.3.jar spring-boot-starter-jdbc-2.4.2.jar sp
+ ring-jdbc-5.3.3.jar spring-boot-starter-data-jpa-2.4.2.jar commons-io-2
+ .2.jar spring-security-acl-5.4.2.jar log4j-api-2.13.3.jar txw2-2.3.3.ja
+ r spring-boot-starter-tomcat-2.4.2.jar spring-data-commons-2.4.3.jar sp
+ ring-security-oauth2-jose-5.4.2.jar xmlbeans-3.1.0.jar
+
