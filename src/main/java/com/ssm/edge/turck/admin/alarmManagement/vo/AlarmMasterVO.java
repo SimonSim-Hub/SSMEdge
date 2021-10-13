@@ -27,9 +27,11 @@ public class AlarmMasterVO {
     private String alarmStatusStr;
     private String queryStatus;
     private Date clearDate;
+    private String clearDateStr;
     private int clearStatus;
     private String clearStatusStr;
     private Date confirmDate;
+    private String confirmDateStr;
     private int confirmStatus;
     private String confirmStatusStr;
     private String historyTagValue;
@@ -38,6 +40,7 @@ public class AlarmMasterVO {
     private String endDate;
     private int useYn;
     private Date createDate;
+    private String createDateStr;
     private String createUser;
     private Date updateDate;
     private String updateUser;

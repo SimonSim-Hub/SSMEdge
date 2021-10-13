@@ -278,8 +278,7 @@
         } else if ($("#mainSessionUserAuthority").val() == "ROLE_USER") {
             $("#userTitle").hide();
             $("#userManagement").hide();
-            $("#alarmSttingTitle").hide();
-            $("#alarmManagement").hide();
+            $("#alarmManagementUpdatePage").hide();
             $("#deviceSttingTitle").hide();
             $("#locationManagement").hide();
             $("#deviceManagement").hide();
@@ -292,8 +291,7 @@
         } else if ($("#mainSessionUserAuthority").val() == "ROLE_GUEST") {
             $("#userTitle").hide();
             $("#userManagement").hide();
-            $("#alarmSttingTitle").hide();
-            $("#alarmManagement").hide();
+            $("#alarmManagementUpdatePage").hide();
             $("#deviceSttingTitle").hide();
             $("#locationManagement").hide();
             $("#deviceManagement").hide();

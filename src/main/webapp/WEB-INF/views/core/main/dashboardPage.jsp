@@ -396,6 +396,7 @@
                     let headerAlarmStatus = 0;
 
                     if(xRMSVelocityStatus == 1) {
+                        $("#" + chartListSensorCode + "_X_Axis_RMS_Velocity_mm_Value").removeClass('font-color-Error');
                         $("#" + chartListSensorCode + "_X_Axis_RMS_Velocity_mm_Value").addClass('font-color-warning');
 
                         headerAlarmStatus = 1;
@@ -418,6 +419,7 @@
                     $("#" + chartListSensorCode + "_Z_Axis_RMS_Velocity_Alarm_Value").text(zRMSVelocityAlarm);
 
                     if(zRMSVelocityStatus == 1) {
+                        $("#" + chartListSensorCode + "_Z_Axis_RMS_Velocity_mm_Value").removeClass('font-color-Error');
                         $("#" + chartListSensorCode + "_Z_Axis_RMS_Velocity_mm_Value").addClass('font-color-warning');
 
                         headerAlarmStatus = 1;
@@ -434,6 +436,7 @@
                         $("#" + chartListSensorCode + "_Card_Header").removeClass('card-warning');
                         $("#" + chartListSensorCode + "_Card_Header").removeClass('card-danger');
                     } else if (headerAlarmStatus == 1) {
+                        $("#" + chartListSensorCode + "_Card_Header").removeClass('card-danger');
                         $("#" + chartListSensorCode + "_Card_Header").addClass('card-warning');
                     } else if (headerAlarmStatus == 2) {
                         $("#" + chartListSensorCode + "_Card_Header").addClass('card-danger');

@@ -579,6 +579,25 @@
                     if(tagMasterList.length > 0) {
                         $.fn.selectBoxVisibleCheck($('#tagCodeDiv'), true);
 
+                        $.fn.selectBoxAddOption($('#tagCode'), "", "- 태그 선택 -");
+                        $.fn.selectBoxAddOption($('#tagCode'), "X_Axis_RMS_Velocity_mm", "X_Axis_RMS_Velocity_mm");
+                        $.fn.selectBoxAddOption($('#tagCode'), "Z_Axis_RMS_Velocity_mm", "Z_Axis_RMS_Velocity_mm");
+                        $.fn.selectBoxAddOption($('#tagCode'), "X_Axis_Peak_Acceleration", "X_Axis_Peak_Acceleration");
+                        $.fn.selectBoxAddOption($('#tagCode'), "Z_Axis_Peak_Acceleration", "Z_Axis_Peak_Acceleration");
+                        $.fn.selectBoxAddOption($('#tagCode'), "Temperature_C", "Temperature_C");
+                        $.fn.selectBoxAddOption($('#tagCode'), "X_Axis_Peak_Velocity_mm", "X_Axis_Peak_Velocity_mm");
+                        $.fn.selectBoxAddOption($('#tagCode'), "Z_Axis_Peak_Velocity_mm", "Z_Axis_Peak_Velocity_mm");
+                        $.fn.selectBoxAddOption($('#tagCode'), "X_Axis_RMS_Acceleration", "X_Axis_RMS_Acceleration");
+                        $.fn.selectBoxAddOption($('#tagCode'), "Z_Axis_RMS_Acceleration", "Z_Axis_RMS_Acceleration");
+                        $.fn.selectBoxAddOption($('#tagCode'), "X_Axis_Crest_Factor", "X_Axis_Crest_Factor");
+                        $.fn.selectBoxAddOption($('#tagCode'), "Z_Axis_Crest_Factor", "Z_Axis_Crest_Factor");
+                        $.fn.selectBoxAddOption($('#tagCode'), "X_Axis_High_Frequency_RMS_Acceleration", "X_Axis_High_Frequency_RMS_Acceleration");
+                        $.fn.selectBoxAddOption($('#tagCode'), "Z_Axis_High_Frequency_RMS_Acceleration", "Z_Axis_High_Frequency_RMS_Acceleration");
+                        $.fn.selectBoxAddOption($('#tagCode'), "X_Axis_Peak_Velocity_Component_Frequency", "X_Axis_Peak_Velocity_Component_Frequency");
+                        $.fn.selectBoxAddOption($('#tagCode'), "Z_Axis_Peak_Velocity_Component_Frequency", "Z_Axis_Peak_Velocity_Component_Frequency");
+                        $.fn.selectBoxAddOption($('#tagCode'), "X_Axis_Kurtosis", "X_Axis_Kurtosis");
+                        $.fn.selectBoxAddOption($('#tagCode'), "Z_Axis_Kurtosis", "Z_Axis_Kurtosis");
+                        /*
                         for(let i = 0; i < tagMasterList.length; i++) {
                             const name = tagMasterList[i].tagName;
 
@@ -588,6 +607,7 @@
 
                             $.fn.selectBoxAddOption($('#tagCode'), name, name);
                         }
+                        */
                     } else {
                         $.fn.selectBoxVisibleCheck($('#tagCodeDiv'), false);
                     }

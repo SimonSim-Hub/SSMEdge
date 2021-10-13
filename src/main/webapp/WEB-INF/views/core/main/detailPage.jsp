@@ -1044,6 +1044,10 @@
                 $("#xMainError").text(lastXRMSVelocityAlarm);
 
                 if(lastXRMSVelocityStatus == 1) {
+                    if($("#xMainValue").hasClass("font-color-Error") === true) {
+                        $("#xMainValue").removeClass('font-color-Error');
+                    }
+
                     $("#xMainValue").addClass('font-color-warning');
 
                     headerAlarmStatus = 1;
@@ -1066,6 +1070,10 @@
                 $("#zMainError").text(lastZRMSVelocityAlarm);
 
                 if(lastZRMSVelocityStatus == 1) {
+                    if($("#zMainValue").hasClass("font-color-Error") === true) {
+                        $("#zMainValue").removeClass('font-color-Error');
+                    }
+
                     $("#zMainValue").addClass('font-color-warning');
 
                     headerAlarmStatus = 1;
@@ -1088,6 +1096,10 @@
                 $("#xMainError").text(lastXPeakAccelerationAlarm);
 
                 if(lastXPeakAccelerationStatus == 1) {
+                    if($("#xMainValue").hasClass("font-color-Error") === true) {
+                        $("#xMainValue").removeClass('font-color-Error');
+                    }
+
                     $("#xMainValue").addClass('font-color-warning');
 
                     headerAlarmStatus = 1;
@@ -1099,10 +1111,6 @@
                     if($("#xMainValue").hasClass("font-color-warning") === true) {
                         $("#xMainValue").removeClass('font-color-warning');
                     }
-
-                    if($("#xMainValue").hasClass("font-color-Error") === true) {
-                        $("#xMainValue").removeClass('font-color-Error');
-                    }
                 }
 
                 $("#zMainValue").text(lastZPeakAcceleration);
@@ -1110,6 +1118,10 @@
                 $("#zMainError").text(lastZPeakAccelerationAlarm);
 
                 if(lastZPeakAccelerationStatus == 1) {
+                    if($("#zMainValue").hasClass("font-color-Error") === true) {
+                        $("#zMainValue").removeClass('font-color-Error');
+                    }
+
                     $("#zMainValue").addClass('font-color-warning');
 
                     headerAlarmStatus = 1;
@@ -1132,6 +1144,10 @@
                 $("#tMainError").text(lastTemperatureCAlarm);
 
                 if(lastTemperatureCStatus == 1) {
+                    if($("#tMainValue").hasClass("font-color-Error") === true) {
+                        $("#tMainValue").removeClass('font-color-Error');
+                    }
+
                     $("#tMainValue").addClass('font-color-warning');
 
                     headerAlarmStatus = 1;
@@ -1154,6 +1170,7 @@
                 $("#mainHeader").removeClass('card-warning');
                 $("#mainHeader").removeClass('card-danger');
             } else if (headerAlarmStatus == 1) {
+                $("#mainHeader").removeClass('card-danger');
                 $("#mainHeader").addClass('card-warning');
             } else if (headerAlarmStatus == 2) {
                 $("#mainHeader").addClass('card-danger');
@@ -1165,6 +1182,10 @@
             $("#X_Axis_RMS_Velocity_mm_Error_Value").text(lastXRMSVelocityAlarm);
 
             if(lastXRMSVelocityStatus == 1) {
+                if($("#X_Axis_RMS_Velocity_mm_Value").hasClass("font-color-Error") === true) {
+                    $("#X_Axis_RMS_Velocity_mm_Value").removeClass('font-color-Error');
+                }
+
                 $("#X_Axis_RMS_Velocity_mm_Value").addClass('font-color-warning');
             } else if(lastXRMSVelocityStatus == 2) {
                 $("#X_Axis_RMS_Velocity_mm_Value").addClass('font-color-Error');
@@ -1183,6 +1204,10 @@
             $("#Z_Axis_RMS_Velocity_mm_Error_Value").text(lastZRMSVelocityAlarm);
 
             if(lastZRMSVelocityStatus == 1) {
+                if($("#Z_Axis_RMS_Velocity_mm_Value").hasClass("font-color-Error") === true) {
+                    $("#Z_Axis_RMS_Velocity_mm_Value").removeClass('font-color-Error');
+                }
+
                 $("#Z_Axis_RMS_Velocity_mm_Value").addClass('font-color-warning');
             } else if(lastZRMSVelocityStatus == 2) {
                 $("#Z_Axis_RMS_Velocity_mm_Value").addClass('font-color-Error');
@@ -1201,6 +1226,10 @@
             $("#X_Axis_Peak_Acceleration_Error_Value").text(lastXPeakAccelerationAlarm);
 
             if(lastXPeakAccelerationStatus == 1) {
+                if($("#X_Axis_Peak_Acceleration_Value").hasClass("font-color-Error") === true) {
+                    $("#X_Axis_Peak_Acceleration_Value").removeClass('font-color-Error');
+                }
+
                 $("#X_Axis_Peak_Acceleration_Value").addClass('font-color-warning');
             } else if(lastXPeakAccelerationStatus == 2) {
                 $("#X_Axis_Peak_Acceleration_Value").addClass('font-color-Error');
@@ -1219,6 +1248,10 @@
             $("#Z_Axis_Peak_Acceleration_Error_Value").text(lastZPeakAccelerationAlarm);
 
             if(lastZPeakAccelerationStatus == 1) {
+                if($("#Z_Axis_Peak_Acceleration_Value").hasClass("font-color-Error") === true) {
+                    $("#Z_Axis_Peak_Acceleration_Value").removeClass('font-color-Error');
+                }
+
                 $("#Z_Axis_Peak_Acceleration_Value").addClass('font-color-warning');
             } else if(lastZPeakAccelerationStatus == 2) {
                 $("#Z_Axis_Peak_Acceleration_Value").addClass('font-color-Error');
@@ -1237,6 +1270,10 @@
             $("#Temperature_C_Error_Value").text(lastTemperatureCAlarm);
 
             if(lastTemperatureCStatus == 1) {
+                if($("#Temperature_C_Value").hasClass("font-color-Error") === true) {
+                    $("#Temperature_C_Value").removeClass('font-color-Error');
+                }
+
                 $("#Temperature_C_Value").addClass('font-color-warning');
             } else if(lastTemperatureCStatus == 2) {
                 $("#Temperature_C_Value").addClass('font-color-Error');

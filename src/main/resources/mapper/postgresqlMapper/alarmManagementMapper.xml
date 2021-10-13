@@ -213,7 +213,8 @@
     </select>
 
     <select id="selectAlarmHistoryList" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterSelectVO" resultType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
-        SELECT A.alarm_code AS alarmCode
+        SELECT (ROW_NUMBER() OVER (ORDER BY A.create_date DESC)) AS rowNum
+             , A.alarm_code AS alarmCode
              , B.alarm_name AS alarmName
              , C.tag_name AS tagName
              , D.sensor_name AS sensorName
@@ -231,14 +232,17 @@
              , A.alarm_value AS alarmValue
              , A.tag_value AS tagValue
              , A.clear_date AS clearDate
+             , TO_CHAR(A.clear_date, 'YYYY-MM-DD HH24:MI:SS.MS') AS clearDateStr
              , A.confirm_status AS confirmStatus
              , CASE WHEN A.confirm_status = 0 THEN '확인'
                 WHEN A.confirm_status = 1 THEN '미확인'
                 END AS confirmStatusStr
              , A.confirm_date AS confirmDate
+             , TO_CHAR(A.confirm_date, 'YYYY-MM-DD HH24:MI:SS.MS') AS confirmDateStr
              , A.confirm_user AS confirmUser
              , A.use_yn AS useYn
              , A.create_date AS createDate
+             , TO_CHAR(A.create_date, 'YYYY-MM-DD HH24:MI:SS.MS') AS createDateStr
              , A.create_user AS createUser
              , A.update_date AS updateDate
              , A.update_user AS updateUser

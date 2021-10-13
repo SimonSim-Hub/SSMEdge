@@ -167,7 +167,7 @@
                             </div>
                             <!-- card-header -->
                             <div class="card-body">
-                                <table id="alarmHistoryList" class="table table-bordered table-striped" style = "width: 3000px">
+                                <table id="alarmHistoryList" class="table table-bordered table-striped" style = "width: 3500px">
                                     <thead>
                                     <tr>
                                         <th>NO</th>
@@ -176,6 +176,7 @@
                                         <th>센서</th>
                                         <th>알람상태</th>
                                         <th>알람</th>
+                                        <th>발생시간</th>
                                         <th>해제상태</th>
                                         <th>해제시간</th>
                                         <th>확인상태</th>
@@ -281,77 +282,90 @@
                 }
             });
 
-            selectLocationMasterList();
-        });
+            const table = $("#alarmHistoryList").DataTable({
+                scrollX: true,
+                autoWidth: false,
+                lengthChange: false,
+                autoWidth: false,
+                language: lang_kor,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        text: '복사'
+                    },
+                    {
+                        extend: 'excel',
+                        text: '엑셀 다운로드'
+                    }
+                ],
+                columns: [
+                    {data: "rowNum"},
+                    {data: "locationName"},
+                    {data: "deviceName"},
+                    {data: "sensorName"},
+                    {data: "alarmStatusStr"},
+                    {data: "alarmName"},
+                    {data: "createDateStr"},
+                    {data: "clearStatusStr"},
+                    {data: "clearDateStr"},
+                    {data: "confirmStatusStr"},
+                    {data: "confirmDateStr"},
+                    {data: "tagValue"},
+                    {data: "alarmValue"},
+                    {data: "userName"}
+                ],
+                columnDefs: [
+                    {targets: 0, width: "30px", className: "text-center"},
+                    {targets: [1, 2, 3], width: "100px", className: "text-center"},
+                    {
+                        targets: [4],
+                        width: "50px",
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            if (data == "알람") {
+                                return '<span class="badge badge-danger" style="font-size:100%">' + data + '</span>';
+                            } else if (data == "경고") {
+                                return '<span class="badge badge-warning" style="font-size:100%">' + data + '</span>';
+                            } else if (data == "정상") {
+                                return '<span class="badge badge-success" style="font-size:100%">' + data + '</span>';
+                            }
+                        }
+                    },
+                    {targets: [5], width: "150px", className: "text-center"},
+                    {targets: [6], width: "150px", className: "text-center"},
+                    {
+                        targets: [7],
+                        width: "50px",
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            if (data == "해제") {
+                                return '<span class="badge badge-success" style="font-size:100%">' + data + '</span>';
+                            } else if (data == "발생") {
+                                return '<span class="badge badge-danger" style="font-size:100%">' + data + '</span>';
+                            }
+                        }
+                    },
+                    {targets: [8], width: "150px", className: "text-center"},
+                    {
+                        targets: [9],
+                        width: "50px",
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            if (data == "확인") {
+                                return '<span class="badge badge-success" style="font-size:100%">' + data + '</span>';
+                            } else if (data == "미확인") {
+                                return '<span class="badge badge-danger" style="font-size:100%">' + data + '</span>';
+                            }
+                        }
+                    },
+                    {targets: [10], width: "150px", className: "text-center"},
+                    {targets: [11, 12], width: "80px", className: "text-center"},
+                    {targets: [13], width: "80px", className: "text-center"}
+                ],
+                order: [1, 'asc']
+            }).buttons().container().appendTo('#alarmHistoryList_wrapper .col-md-6:eq(0)');
 
-        const table = $("#alarmHistoryList").DataTable({
-            scrollX: true,
-            autoWidth: false,
-            lengthChange: false,
-            autoWidth: false,
-            language: lang_kor,
-            columns: [
-                {data: "rowNum"},
-                {data: "locationName"},
-                {data: "deviceName"},
-                {data: "sensorName"},
-                {data: "alarmStatusStr"},
-                {data: "alarmName"},
-                {data: "clearStatusStr"},
-                {data: "clearDate"},
-                {data: "confirmStatusStr"},
-                {data: "confirmDate"},
-                {data: "tagValue"},
-                {data: "alarmValue"},
-                {data: "userName"}
-            ],
-            columnDefs: [
-                {targets: 0, width: "30px", className: "text-center"},
-                {targets: [1, 2, 3], width: "100px", className: "text-center"},
-                {
-                    targets: [4],
-                    width: "50px",
-                    className: "text-center",
-                    render: function(data, type, row, meta) {
-                        if (data == "알람") {
-                            return '<span class="badge badge-danger" style="font-size:100%">' + data + '</span>';
-                        } else if (data == "경고") {
-                            return '<span class="badge badge-warning" style="font-size:100%">' + data + '</span>';
-                        } else if (data == "정상") {
-                            return '<span class="badge badge-success" style="font-size:100%">' + data + '</span>';
-                        }
-                    }
-                },
-                {targets: [5], width: "150px", className: "text-center"},
-                {
-                    targets: [6],
-                    width: "150px",
-                    className: "text-center",
-                    render: function(data, type, row, meta) {
-                        if (data == "해제") {
-                            return '<span class="badge badge-success" style="font-size:100%">' + data + '</span>';
-                        } else if (data == "발생") {
-                            return '<span class="badge badge-danger" style="font-size:100%">' + data + '</span>';
-                        }
-                    }
-                },
-                {targets: [7], width: "150px", className: "text-center"},
-                {
-                    targets: [8],
-                    width: "150px",
-                    className: "text-center",
-                    render: function(data, type, row, meta) {
-                        if (data == "확인") {
-                            return '<span class="badge badge-success" style="font-size:100%">' + data + '</span>';
-                        } else if (data == "미확인") {
-                            return '<span class="badge badge-danger" style="font-size:100%">' + data + '</span>';
-                        }
-                    }
-                },
-                {targets: [9, 10, 11], width: "80px", className: "text-center"},
-                {targets: [12], width: "80px", className: "text-center"}
-            ],
-            order: [1, 'asc']
+            selectLocationMasterList();
         });
 
         $.fn.dataTable.ext.errMode = "none";
