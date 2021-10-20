@@ -112,7 +112,7 @@ public class MainServiceImpl implements MainService {
 
                     if(sensorCode.equals(dbSensorCode)) {
                         float xAxisRmsVelocityMmValue = insertVibrationSensorLowDataVO.getXAxisRmsVelocityMmValue();
-                        float zAxisRmsVelocityMmValue = insertVibrationSensorLowDataVO.getXAxisRmsVelocityMmValue();
+                        float zAxisRmsVelocityMmValue = insertVibrationSensorLowDataVO.getZAxisRmsVelocityMmValue();
                         float xAxisPeakAccelerationValue = insertVibrationSensorLowDataVO.getXAxisPeakAccelerationValue();
                         float zAxisPeakAccelerationValue = insertVibrationSensorLowDataVO.getZAxisPeakAccelerationValue();
                         float temperatureCValue = insertVibrationSensorLowDataVO.getTemperatureCValue();

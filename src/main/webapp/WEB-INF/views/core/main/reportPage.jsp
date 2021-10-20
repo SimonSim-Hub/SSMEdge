@@ -655,6 +655,8 @@
             return false;
         }
 
+        loadingStart("이력 정보 조회 중 입니다. 잠시만 기다려주세요.");
+
         const chartListChartObject = sensorChart;
 
         if(chartListChartObject != null) {
@@ -664,6 +666,8 @@
         $.fn.divVisibleCheck($('#sensorReportMainDiv'), true);
 
         drawReportChartData();
+
+        loadingEnd();
     });
 
     function drawReportChartData() {
