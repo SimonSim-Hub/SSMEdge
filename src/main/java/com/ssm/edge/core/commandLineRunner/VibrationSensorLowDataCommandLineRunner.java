@@ -28,7 +28,6 @@ public class VibrationSensorLowDataCommandLineRunner implements CommandLineRunne
 
         new Thread(() -> {
             while (true) {
-
                 try {
                     TagLowDataThreadDelayVO tagLowDataThreadDelayVO = new TagLowDataThreadDelayVO();
 
@@ -37,6 +36,8 @@ public class VibrationSensorLowDataCommandLineRunner implements CommandLineRunne
                     int delay = tagLowDataThreadDelayVO.getTimerDelay();
 
                     if(delay > 0) {
+                        long start = System.currentTimeMillis();
+
                         String minDate_String = mainService.selectTagLowDataMinDate();
 
                         if(minDate_String != null && minDate_String != "") {
@@ -52,8 +53,6 @@ public class VibrationSensorLowDataCommandLineRunner implements CommandLineRunne
 
                             Date currentDate = new Date();
 
-                            long currentDate_Long = ConvertUtil.dateTolong(format, currentDate);
-
                             Date startDate = ConvertUtil.longToDate(startDate_Long);
                             Date endDate = ConvertUtil.longToDate(endDate_Long);
 
@@ -68,6 +67,7 @@ public class VibrationSensorLowDataCommandLineRunner implements CommandLineRunne
 
                                     if(vibrationSensorLowDataGrouppingList != null) {
                                         for (int i = 0; i < vibrationSensorLowDataGrouppingList.size(); i++) {
+
                                             VibrationSensorLowDataVO insertVibrationSensorLowDataVO = new VibrationSensorLowDataVO();
 
                                             insertVibrationSensorLowDataVO = vibrationSensorLowDataGrouppingList.get(i);
@@ -83,13 +83,22 @@ public class VibrationSensorLowDataCommandLineRunner implements CommandLineRunne
                             }
                         }
 
+                        long end = System.currentTimeMillis();
+                        System.out.println("D : "+(end-start));
+
+                        if(delay > (end-start)) {
+                            delay = (int) (delay-(end-start));
+                        } else {
+                            delay = 0;
+                        }
+
                         Thread.sleep(delay);
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-
     }
 }

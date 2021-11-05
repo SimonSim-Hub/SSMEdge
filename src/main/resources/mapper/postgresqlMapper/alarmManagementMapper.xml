@@ -130,11 +130,8 @@
     </select>
 
     <select id="selectAlarmStatus" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO" resultType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO">
-        SELECT alarm_status
+        SELECT alarm_code, alarm_status
         FROM turck_admin_alarm_master
-        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(alarmCode)">
-            WHERE alarm_code = #{alarmCode}
-        </if>
     </select>
 
     <select id="selectAlarmHistoryMaxAlarmStatus" parameterType="com.ssm.edge.turck.admin.alarmManagement.vo.AlarmMasterVO" resultType="int">

@@ -34,8 +34,8 @@ public class AlarmManagementDAO extends PostgresqlAbstractDAO {
         return (List<RealtimeAlarmMasterVO>) selectList("com.ssm.edge.turck.admin.alarmManagement.selectRealtimeAlarmMasterList", alarmMasterVO);
     }
 
-    public AlarmMasterVO selectAlarmStatus(AlarmMasterVO alarmMasterVO) throws Exception {
-        return (AlarmMasterVO) selectOne("com.ssm.edge.turck.admin.alarmManagement.selectAlarmStatus", alarmMasterVO);
+    public List<AlarmMasterVO> selectAlarmStatus() throws Exception {
+        return (List<AlarmMasterVO>) selectList("com.ssm.edge.turck.admin.alarmManagement.selectAlarmStatus");
     }
 
     public int selectAlarmHistoryMaxAlarmStatus(AlarmMasterVO alarmMasterVO) throws Exception {

@@ -78,8 +78,6 @@ public class MainDAO extends PostgresqlAbstractDAO {
         insert("com.ssm.edge.core.main.updateDefaultSystemSetting", systemSettingMap);
     }
 
-
-
     // 두산 인프라코어 Mssql DB가 없어 임시로 Postgresql DB에 이력 데이터 저장
     public void insertVibrationSensorLowDataGrouppingList(VibrationSensorLowDataVO insertVibrationSensorLowDataVO) throws Exception {
         insert("com.ssm.edge.core.main.insertVibrationSensorLowDataGrouppingList", insertVibrationSensorLowDataVO);
@@ -95,5 +93,9 @@ public class MainDAO extends PostgresqlAbstractDAO {
 
     public List<VibrationSensorLowDataVO> selectVibrationSensorReportDataLastCountList(Map<String, String> selectTagLowDataLastCountListMap) {
         return (List<VibrationSensorLowDataVO>)selectList("com.ssm.edge.core.main.selectVibrationSensorReportDataLastCountList", selectTagLowDataLastCountListMap);
+    }
+
+    public void deleteVibrationSensorLowDataHotListAll() {
+        delete("com.ssm.edge.core.main.deleteVibrationSensorLowDataHotListAll", null);
     }
 }

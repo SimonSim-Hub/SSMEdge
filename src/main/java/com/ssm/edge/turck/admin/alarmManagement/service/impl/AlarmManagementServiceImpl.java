@@ -1,6 +1,8 @@
 package com.ssm.edge.turck.admin.alarmManagement.service.impl;
 
 import com.ssm.edge.core.main.dao.MainDAO;
+import com.ssm.edge.core.main.service.MainService;
+import com.ssm.edge.core.main.service.impl.MainServiceImpl;
 import com.ssm.edge.core.main.vo.TagLowDataThreadDelayVO;
 import com.ssm.edge.core.map.CommonCommandMap;
 import com.ssm.edge.core.util.ConvertUtil;
@@ -27,6 +29,9 @@ import java.util.Map;
 
 @Service("alarmManagementService")
 public class AlarmManagementServiceImpl implements AlarmManagementService {
+
+    @Resource(name = "mainService")
+    public MainService mainService;
 
     @Resource(name = "mainDAO")
     public MainDAO mainDAO;
@@ -86,6 +91,8 @@ public class AlarmManagementServiceImpl implements AlarmManagementService {
 
         try {
             alarmManagementDAO.updateAlarmMasterInfo(alarmMasterVO);
+
+            mainService.resetVibrationSensorMemoryAlarmList();
 
             resultStatus = "1";
             resultMessage = "알람 정보 수정이 완료되었습니다.";
@@ -154,6 +161,12 @@ public class AlarmManagementServiceImpl implements AlarmManagementService {
             }
         }
 
+        try {
+            mainService.resetVibrationSensorMemoryAlarmList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         resultStatus = "1";
         resultMessage = "알람 마스터 목록 수정이 완료되었습니다.";
 
@@ -191,6 +204,8 @@ public class AlarmManagementServiceImpl implements AlarmManagementService {
                         alarmMasterVO = modelMapper.map(JsonUtil.jsonObjectToMap(alarmMasterObject), AlarmMasterVO.class);
 
                         alarmMasterVO.setAlarmStatus(0);
+
+                        MainServiceImpl.memoryAlarmStatusMap.put(alarmMasterVO.getAlarmCode(), alarmMasterVO.getAlarmStatus());
 
                         alarmManagementDAO.updateAlarmMasterInfo(alarmMasterVO);
                     } catch (JSONException e) {

@@ -19,18 +19,18 @@
              , ROUND(CAST(AVG(A.z_axis_rms_velocity_mm_value::real) AS numeric), 3) AS zAxisRmsVelocityMmValue
              , ROUND(CAST(AVG(A.temperature_c_value::real) AS numeric), 3) AS temperatureCValue
              , ROUND(CAST(AVG(A.x_axis_rms_velocity_mm_value::real) AS numeric), 3) AS xAxisRmsVelocityMmValue
-             , ROUND(CAST(AVG(A.z_axis_peak_acceleration_value::real) AS numeric), 3) AS zAxisPeakAccelerationValue
-             , ROUND(CAST(AVG(A.x_axis_peak_acceleration_value::real) AS numeric), 3) AS xAxisPeakAccelerationValue
-             , ROUND(CAST(AVG(A.z_axis_peak_velocity_component_frequency_value::real) AS numeric), 3) AS zAxisPeakVelocityComponentFrequencyValue
-             , ROUND(CAST(AVG(A.x_axis_peak_velocity_component_frequency_value::real) AS numeric), 3) AS xAxisPeakVelocityComponentFrequencyValue
+             , ROUND(CAST(MAX(A.z_axis_peak_acceleration_value::real) AS numeric), 3) AS zAxisPeakAccelerationValue
+             , ROUND(CAST(MAX(A.x_axis_peak_acceleration_value::real) AS numeric), 3) AS xAxisPeakAccelerationValue
+             , ROUND(CAST(MAX(A.z_axis_peak_velocity_component_frequency_value::real) AS numeric), 3) AS zAxisPeakVelocityComponentFrequencyValue
+             , ROUND(CAST(MAX(A.x_axis_peak_velocity_component_frequency_value::real) AS numeric), 3) AS xAxisPeakVelocityComponentFrequencyValue
              , ROUND(CAST(AVG(A.z_axis_rms_acceleration_value::real) AS numeric), 3) AS zAxisRmsAccelerationValue
              , ROUND(CAST(AVG(A.x_axis_rms_acceleration_value::real) AS numeric), 3) AS xAxisRmsAccelerationValue
              , ROUND(CAST(AVG(A.z_axis_kurtosis_value::real) AS numeric), 3) AS zAxisKurtosisValue
              , ROUND(CAST(AVG(A.x_axis_kurtosis_value::real) AS numeric), 3) AS xAxisKurtosisValue
              , ROUND(CAST(AVG(A.z_axis_crest_factor_value::real) AS numeric), 3) AS zAxisCrestFactorValue
              , ROUND(CAST(AVG(A.x_axis_crest_factor_value::real) AS numeric), 3) AS xAxisCrestFactorValue
-             , ROUND(CAST(AVG(A.z_axis_peak_velocity_mm_value::real) AS numeric), 3) AS zAxisPeakVelocityMmValue
-             , ROUND(CAST(AVG(A.x_axis_peak_velocity_mm_value::real) AS numeric), 3) AS xAxisPeakVelocityMmValue
+             , ROUND(CAST(MAX(A.z_axis_peak_velocity_mm_value::real) AS numeric), 3) AS zAxisPeakVelocityMmValue
+             , ROUND(CAST(MAX(A.x_axis_peak_velocity_mm_value::real) AS numeric), 3) AS xAxisPeakVelocityMmValue
              , ROUND(CAST(AVG(A.z_axis_high_frequency_rms_acceleration_value::real) AS numeric), 3) AS zAxisHighFrequencyRmsAccelerationValue
              , ROUND(CAST(AVG(A.x_axis_high_frequency_rms_acceleration_value::real) AS numeric), 3) AS xAxisHighFrequencyRmsAccelerationValue
         FROM ( SELECT otime
@@ -167,7 +167,6 @@
                  LIMIT #{dataCount} ) A
     </select>
 
-
     <delete id="deleteVibrationSensorLowDataHotList" parameterType="Date">
         <![CDATA[
         DELETE
@@ -294,10 +293,6 @@
           , report_chart_quantity = #{reportChartQty}
     </update>
 
-
-
-
-
     <insert id="insertVibrationSensorLowDataGrouppingList" parameterType="com.ssm.edge.core.main.vo.VibrationSensorLowDataVO">
         INSERT INTO X_DAS_VIBRATION_SENSOR_LOW_COLD_DATA_TABLE
             ( otime
@@ -366,8 +361,8 @@
             , A.location_name AS locationName
             , A.x_axis_rms_velocity_mm_value AS xAxisRmsVelocityMmValue
             , A.z_axis_rms_velocity_mm_value AS zAxisRmsVelocityMmValue
-            , A.z_axis_peak_acceleration_value AS xAxisPeakAccelerationValue
-            , A.x_axis_peak_acceleration_value AS zAxisPeakAccelerationValue
+            , A.z_axis_peak_acceleration_value AS zAxisPeakAccelerationValue
+            , A.x_axis_peak_acceleration_value AS xAxisPeakAccelerationValue
             , A.temperature_c_value AS temperatureCValue
             , A.z_axis_peak_velocity_component_frequency_value AS zAxisPeakVelocityComponentFrequencyValue
             , A.x_axis_peak_velocity_component_frequency_value AS xAxisPeakVelocityComponentFrequencyValue
@@ -511,4 +506,9 @@
         LIMIT #{dataLastCount}) A
         ORDER BY A.oTime ASC
     </select>
+
+    <delete id="deleteVibrationSensorLowDataHotListAll">
+        DELETE
+        FROM x_das_vibration_sensor_low_hot_data_table
+    </delete>
 </mapper>

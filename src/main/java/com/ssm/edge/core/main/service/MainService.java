@@ -30,4 +30,8 @@ public interface MainService {
     ModelAndView selectSystemSetting(CommonCommandMap commonCommandMap);
     // 시스템 설정 변경
     ModelAndView updateSystemSetting(CommonCommandMap commonCommandMap);
+    // Hot Data 일괄 삭제
+    void deleteVibrationSensorLowDataHotListAll();
+    // 메모리 알람 리스트 설정
+    void resetVibrationSensorMemoryAlarmList();
 }
