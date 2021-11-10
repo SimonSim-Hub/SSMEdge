@@ -85,6 +85,7 @@
                                         <div class="col-sm-9">
                                             <select id="alarmStatus" class="form-control" value="">
                                                 <option value="">- 알람상태 선택 -</option>
+                                                <option value="">전체</option>
                                                 <option value="1">경고</option>
                                                 <option value="2">알람</option>
                                             </select>
@@ -115,6 +116,14 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div id="tagNameDiv" class="form-group row">
+                                        <label for="tagName" class="col-sm-3 col-form-label">태그 :</label>
+                                        <div class="col-sm-9">
+                                            <select id="tagName" data-validate="null" class="form-control" value="">
+                                                <option value="">- 태그 선택 -</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -142,6 +151,8 @@
                                         <label for="confirmStatus" class="col-sm-3 col-form-label">확인상태 :</label>
                                         <div class="col-sm-9">
                                             <select id="confirmStatus" class="form-control">
+                                                <option value="">- 확인상태 선택 -</option>
+                                                <option value="">전체</option>
                                                 <option value="0">확인</option>
                                                 <option value="1">미확인</option>
                                             </select>
@@ -177,8 +188,6 @@
                                         <th>알람상태</th>
                                         <th>알람</th>
                                         <th>발생시간</th>
-                                        <th>해제상태</th>
-                                        <th>해제시간</th>
                                         <th>확인상태</th>
                                         <th>확인시간</th>
                                         <th>태그값</th>
@@ -271,6 +280,7 @@
 
             $.fn.selectBoxVisibleCheck($('#deviceCodeDiv'), false);
             $.fn.selectBoxVisibleCheck($('#sensorCodeDiv'), false);
+            $.fn.selectBoxVisibleCheck($('#tagNameDiv'), false);
 
             $.fn.selectBoxVisibleCheck($('#selectAlarmHistoryBtnDiv'), false);
 
@@ -306,8 +316,6 @@
                     {data: "alarmStatusStr"},
                     {data: "alarmName"},
                     {data: "createDateStr"},
-                    {data: "clearStatusStr"},
-                    {data: "clearDateStr"},
                     {data: "confirmStatusStr"},
                     {data: "confirmDateStr"},
                     {data: "tagValue"},
@@ -338,19 +346,6 @@
                         width: "50px",
                         className: "text-center",
                         render: function(data, type, row, meta) {
-                            if (data == "해제") {
-                                return '<span class="badge badge-success" style="font-size:100%">' + data + '</span>';
-                            } else if (data == "발생") {
-                                return '<span class="badge badge-danger" style="font-size:100%">' + data + '</span>';
-                            }
-                        }
-                    },
-                    {targets: [8], width: "150px", className: "text-center"},
-                    {
-                        targets: [9],
-                        width: "50px",
-                        className: "text-center",
-                        render: function(data, type, row, meta) {
                             if (data == "확인") {
                                 return '<span class="badge badge-success" style="font-size:100%">' + data + '</span>';
                             } else if (data == "미확인") {
@@ -358,9 +353,9 @@
                             }
                         }
                     },
-                    {targets: [10], width: "150px", className: "text-center"},
-                    {targets: [11, 12], width: "80px", className: "text-center"},
-                    {targets: [13], width: "80px", className: "text-center"}
+                    {targets: [8], width: "150px", className: "text-center"},
+                    {targets: [9, 10], width: "80px", className: "text-center"},
+                    {targets: [11], width: "80px", className: "text-center"}
                 ],
                 order: [1, 'asc']
             }).buttons().container().appendTo('#alarmHistoryList_wrapper .col-md-6:eq(0)');
@@ -403,8 +398,8 @@
                 locationCode: $("#locationCode").val(),
                 deviceCode: $("#deviceCode").val(),
                 sensorCode: $("#sensorCode").val(),
+                tagName: $("#tagName").val(),
                 alarmStatus: $("#alarmStatus").val(),
-                confirmStatus: 1,
                 updateUser: $("#mainSessionUserId").val(),
                 confirmStatus: 1
             };
@@ -418,6 +413,7 @@
                 locationCode: $("#locationCode").val(),
                 deviceCode: $("#deviceCode").val(),
                 sensorCode: $("#sensorCode").val(),
+                tagName: $("#tagName").val(),
                 alarmStatus: $("#alarmStatus").val(),
                 confirmStatus: $("#confirmStatus").val(),
                 updateUser: $("#mainSessionUserId").val(),
@@ -530,6 +526,9 @@
         $.fn.selectBoxReset($('#deviceCode'));
         $.fn.selectBoxVisibleCheck($('#deviceCodeDiv'), false);
 
+        $.fn.selectBoxReset($('#tagName'));
+        $.fn.selectBoxVisibleCheck($('#tagNameDiv'), false);
+
         if(this.value != "") {
             $("#resLocationCode").val(this.value);
 
@@ -603,6 +602,9 @@
         $.fn.selectBoxReset($('#sensorCode'));
         $.fn.selectBoxVisibleCheck($('#sensorCodeDiv'), false);
 
+        $.fn.selectBoxReset($('#tagName'));
+        $.fn.selectBoxVisibleCheck($('#tagNameDiv'), false);
+
         if(this.value != "") {
             $("#resDeviceCode").val(this.value);
 
@@ -669,6 +671,60 @@
                         selectAlarmHistoryList();
                     }
                 }
+            }
+        });
+    }
+
+    $('#sensorCode').on('change', function() {
+        $.fn.selectBoxReset($('#tagName'));
+        $.fn.selectBoxVisibleCheck($('#tagNameDiv'), false);
+
+        if(this.value != "") {
+            selectTagMasterList();
+        }
+    });
+
+    function selectTagMasterList() {
+        const action = "<%=request.getContextPath()%>/core/main/selectTagMasterList";
+
+        const sensorCode = $("#sensorCode").val();
+
+        const form_data = {
+            sensorCode: sensorCode
+        };
+
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: form_data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+            },
+            success: function (resultData) {
+                if(resultData != null) {
+                    const tagMasterList = JSON.parse(resultData.tagMasterList);
+
+                    $.fn.selectBoxReset($('#tagName'));
+
+                    if(tagMasterList.length > 0) {
+                        $.fn.selectBoxVisibleCheck($('#tagNameDiv'), true);
+
+                        $.fn.selectBoxAddOption($('#tagName'), "", "- 태그 선택 -");
+                        $.fn.selectBoxAddOption($('#tagName'), "X_Axis_RMS_Velocity_mm", "X_Axis_RMS_Velocity_mm");
+                        $.fn.selectBoxAddOption($('#tagName'), "Z_Axis_RMS_Velocity_mm", "Z_Axis_RMS_Velocity_mm");
+                        $.fn.selectBoxAddOption($('#tagName'), "X_Axis_Peak_Acceleration", "X_Axis_Peak_Acceleration");
+                        $.fn.selectBoxAddOption($('#tagName'), "Z_Axis_Peak_Acceleration", "Z_Axis_Peak_Acceleration");
+                        $.fn.selectBoxAddOption($('#tagName'), "Temperature_C", "Temperature_C");
+                    } else {
+                        $.fn.selectBoxVisibleCheck($('#tagNameDiv'), false);
+                    }
+                }
+            },
+            error: function (jqXHR, resultData) {
+                alarmPopUp(2, "태그 목록 조회 중 [" + jqXHR.status + "] 오류가 발생했습니다.<br>관리자에게 문의하세요.", "");
+            },
+            complete: function () {
+
             }
         });
     }

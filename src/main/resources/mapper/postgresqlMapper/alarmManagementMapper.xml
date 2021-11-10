@@ -282,6 +282,9 @@
         <if test="confirmStatus != null and confirmStatus > -1">
             AND A.confirm_status = #{confirmStatus}
         </if>
+        <if test="@com.ssm.edge.core.util.EmptyCheck@notEmpty(tagName)">
+            AND C.tag_name = #{tagName}
+        </if>
         ORDER BY A.create_date DESC
     </select>
 

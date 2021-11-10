@@ -14,6 +14,7 @@ public class AlarmMasterSelectVO {
     private String deviceCode;
     private String sensorCode;
     private String tagCode;
+    private String tagName;
     private String startDate;
     private String endDate;
     private Date createDate;

@@ -35,7 +35,7 @@ public class MainServiceImpl implements MainService {
 
     public static Map<String, List<AlarmMasterVO>> memoryAlarmMasterVOMap = new HashMap<>();
     public static Map<String, Integer> memoryAlarmStatusMap = new HashMap<>();
-    public static Map<String, Integer> momoryMaxAlarmStatusMap = new HashMap<>();
+    public static Map<String, Integer> momoryLastAlarmStatusMap = new HashMap<>();
 
     @Override
     public ModelAndView selectSensorMainChartData(CommonCommandMap commonCommandMap) {
@@ -134,7 +134,7 @@ public class MainServiceImpl implements MainService {
             List<AlarmMasterVO> dbAlarmStatusVOList = alarmManagementDAO.selectAlarmStatus();
 
             for(int i = 0; i < dbAlarmStatusVOList.size(); i++) {
-                momoryMaxAlarmStatusMap.put(dbAlarmStatusVOList.get(i).getAlarmCode(), alarmManagementDAO.selectAlarmHistoryMaxAlarmStatus(dbAlarmStatusVOList.get(i)));
+                momoryLastAlarmStatusMap.put(dbAlarmStatusVOList.get(i).getAlarmCode(), alarmManagementDAO.selectAlarmHistoryMaxAlarmStatus(dbAlarmStatusVOList.get(i)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,158 +144,145 @@ public class MainServiceImpl implements MainService {
     @Override
     public void insertVibrationSensorLowDataGrouppingList(VibrationSensorLowDataVO insertVibrationSensorLowDataVO) {
         if(memoryAlarmMasterVOMap != null && memoryAlarmMasterVOMap.size() > 0) {
-            String plcSensorCode = insertVibrationSensorLowDataVO.getSensorCode().toString();
+            if(insertVibrationSensorLowDataVO.getSensorCode() != null) {
+                String plcSensorCode = insertVibrationSensorLowDataVO.getSensorCode();
 
-            List<AlarmMasterVO> alarmMasterVOList = new ArrayList<>();
+                List<AlarmMasterVO> alarmMasterVOList = new ArrayList<>();
 
-            alarmMasterVOList = memoryAlarmMasterVOMap.get(plcSensorCode);
+                alarmMasterVOList = memoryAlarmMasterVOMap.get(plcSensorCode);
 
-            if(alarmMasterVOList != null && alarmMasterVOList.size() > 0) {
-                for (int i = 0; i < alarmMasterVOList.size(); i++) {
-                    int alarmStatus = 0;
+                if (alarmMasterVOList != null && alarmMasterVOList.size() > 0) {
 
-                    float xAxisRmsVelocityMmValue = insertVibrationSensorLowDataVO.getXAxisRmsVelocityMmValue();
-                    float zAxisRmsVelocityMmValue = insertVibrationSensorLowDataVO.getZAxisRmsVelocityMmValue();
-                    float xAxisPeakAccelerationValue = insertVibrationSensorLowDataVO.getXAxisPeakAccelerationValue();
-                    float zAxisPeakAccelerationValue = insertVibrationSensorLowDataVO.getZAxisPeakAccelerationValue();
-                    float temperatureCValue = insertVibrationSensorLowDataVO.getTemperatureCValue();
+                    for (int i = 0; i < alarmMasterVOList.size(); i++) {
+                        int alarmStatus = 0;
 
-                    String alarmName = alarmMasterVOList.get(i).getAlarmName();
-                    String alarmCode = alarmMasterVOList.get(i).getAlarmCode();
-                    float warringValue = Float.parseFloat(alarmMasterVOList.get(i).getWarningValue());
-                    float alarmValue = Float.parseFloat(alarmMasterVOList.get(i).getAlarmValue());
+                        float xAxisRmsVelocityMmValue = insertVibrationSensorLowDataVO.getXAxisRmsVelocityMmValue();
+                        float zAxisRmsVelocityMmValue = insertVibrationSensorLowDataVO.getZAxisRmsVelocityMmValue();
+                        float xAxisPeakAccelerationValue = insertVibrationSensorLowDataVO.getXAxisPeakAccelerationValue();
+                        float zAxisPeakAccelerationValue = insertVibrationSensorLowDataVO.getZAxisPeakAccelerationValue();
+                        float temperatureCValue = insertVibrationSensorLowDataVO.getTemperatureCValue();
 
-                    float historyTagValue = 0;
-                    float historyAlarmValue = 0;
+                        String alarmName = alarmMasterVOList.get(i).getAlarmName();
+                        String alarmCode = alarmMasterVOList.get(i).getAlarmCode();
+                        float warringValue = Float.parseFloat(alarmMasterVOList.get(i).getWarningValue());
+                        float alarmValue = Float.parseFloat(alarmMasterVOList.get(i).getAlarmValue());
 
-                    if (alarmName.equals("X_Axis_RMS_Velocity_mm_Alarm")) {
-                        historyTagValue = xAxisRmsVelocityMmValue;
+                        float historyTagValue = 0;
+                        float historyAlarmValue = 0;
 
-                        if (xAxisRmsVelocityMmValue > warringValue) {
-                            alarmStatus = 1;
+                        if (alarmName.equals("X_Axis_RMS_Velocity_mm_Alarm")) {
+                            historyTagValue = xAxisRmsVelocityMmValue;
 
-                            historyAlarmValue = warringValue;
-                        }
+                            if (xAxisRmsVelocityMmValue > warringValue) {
+                                alarmStatus = 1;
 
-                        if (xAxisRmsVelocityMmValue > alarmValue) {
-                            alarmStatus = 2;
-
-                            historyAlarmValue = alarmValue;
-                        }
-                    } else if (alarmName.equals("Z_Axis_RMS_Velocity_mm_Alarm")) {
-                        historyTagValue = zAxisRmsVelocityMmValue;
-
-                        if (zAxisRmsVelocityMmValue > warringValue) {
-                            alarmStatus = 1;
-
-                            historyAlarmValue = warringValue;
-                        }
-
-                        if (zAxisRmsVelocityMmValue > alarmValue) {
-                            alarmStatus = 2;
-
-                            historyAlarmValue = alarmValue;
-                        }
-                    } else if (alarmName.equals("X_Axis_Peak_Acceleration_Alarm")) {
-                        historyTagValue = xAxisPeakAccelerationValue;
-
-                        if (xAxisPeakAccelerationValue > warringValue) {
-                            alarmStatus = 1;
-
-                            historyAlarmValue = warringValue;
-                        }
-
-                        if (xAxisPeakAccelerationValue > alarmValue) {
-                            alarmStatus = 2;
-
-                            historyAlarmValue = alarmValue;
-                        }
-                    } else if (alarmName.equals("Z_Axis_Peak_Acceleration_Alarm")) {
-                        historyTagValue = zAxisPeakAccelerationValue;
-
-                        if (zAxisPeakAccelerationValue > warringValue) {
-                            alarmStatus = 1;
-
-                            historyAlarmValue = warringValue;
-                        }
-
-                        if (zAxisPeakAccelerationValue > alarmValue) {
-                            alarmStatus = 2;
-
-                            historyAlarmValue = alarmValue;
-                        }
-                    } else if (alarmName.equals("Temperature_C_Alarm")) {
-                        historyTagValue = temperatureCValue;
-
-                        if (temperatureCValue > warringValue) {
-                            alarmStatus = 1;
-
-                            historyAlarmValue = warringValue;
-                        }
-
-                        if (temperatureCValue > alarmValue) {
-                            alarmStatus = 2;
-
-                            historyAlarmValue = alarmValue;
-                        }
-                    }
-
-                    AlarmMasterVO alarmMasterVO = new AlarmMasterVO();
-
-                    alarmMasterVO.setAlarmStatus(alarmStatus);
-                    alarmMasterVO.setAlarmCode(alarmCode);
-                    alarmMasterVO.setSensorCode(insertVibrationSensorLowDataVO.getSensorCode());
-                    alarmMasterVO.setHistoryTagValue(String.valueOf(historyTagValue));
-                    alarmMasterVO.setHistoryAlarmValue(String.valueOf(historyAlarmValue));
-                    alarmMasterVO.setUpdateUser("system");
-                    alarmMasterVO.setCreateUser("system");
-
-                    if (alarmStatus > 0) {
-                        try {
-                            int memoryAlarmStatus = memoryAlarmStatusMap.get(alarmMasterVO.getAlarmCode());
-
-                            if (alarmStatus > memoryAlarmStatus) {
-                                memoryAlarmStatusMap.put(alarmMasterVO.getAlarmCode(), alarmMasterVO.getAlarmStatus());
-
-                                alarmManagementDAO.updateAlarmMasterInfo(alarmMasterVO);
-                            } else {
-                                alarmManagementDAO.updateAlarmHistoryClearStatus(alarmMasterVO);
+                                historyAlarmValue = warringValue;
                             }
-/*
-                            if(momoryMaxAlarmStatusMap != null && momoryMaxAlarmStatusMap.size() > 0) {
-                                int maxAlarmStatus = momoryMaxAlarmStatusMap.get(alarmMasterVO.getAlarmCode());
 
-                                if(maxAlarmStatus < alarmStatus) {
-                                    momoryMaxAlarmStatusMap.put(alarmMasterVO.getAlarmCode(), alarmStatus);
+                            if (xAxisRmsVelocityMmValue > alarmValue) {
+                                alarmStatus = 2;
 
+                                historyAlarmValue = alarmValue;
+                            }
+                        } else if (alarmName.equals("Z_Axis_RMS_Velocity_mm_Alarm")) {
+                            historyTagValue = zAxisRmsVelocityMmValue;
+
+                            if (zAxisRmsVelocityMmValue > warringValue) {
+                                alarmStatus = 1;
+
+                                historyAlarmValue = warringValue;
+                            }
+
+                            if (zAxisRmsVelocityMmValue > alarmValue) {
+                                alarmStatus = 2;
+
+                                historyAlarmValue = alarmValue;
+                            }
+                        } else if (alarmName.equals("X_Axis_Peak_Acceleration_Alarm")) {
+                            historyTagValue = xAxisPeakAccelerationValue;
+
+                            if (xAxisPeakAccelerationValue > warringValue) {
+                                alarmStatus = 1;
+
+                                historyAlarmValue = warringValue;
+                            }
+
+                            if (xAxisPeakAccelerationValue > alarmValue) {
+                                alarmStatus = 2;
+
+                                historyAlarmValue = alarmValue;
+                            }
+                        } else if (alarmName.equals("Z_Axis_Peak_Acceleration_Alarm")) {
+                            historyTagValue = zAxisPeakAccelerationValue;
+
+                            if (zAxisPeakAccelerationValue > warringValue) {
+                                alarmStatus = 1;
+
+                                historyAlarmValue = warringValue;
+                            }
+
+                            if (zAxisPeakAccelerationValue > alarmValue) {
+                                alarmStatus = 2;
+
+                                historyAlarmValue = alarmValue;
+                            }
+                        } else if (alarmName.equals("Temperature_C_Alarm")) {
+                            historyTagValue = temperatureCValue;
+
+                            if (temperatureCValue > warringValue) {
+                                alarmStatus = 1;
+
+                                historyAlarmValue = warringValue;
+                            }
+
+                            if (temperatureCValue > alarmValue) {
+                                alarmStatus = 2;
+
+                                historyAlarmValue = alarmValue;
+                            }
+                        }
+
+                        AlarmMasterVO alarmMasterVO = new AlarmMasterVO();
+
+                        alarmMasterVO.setAlarmStatus(alarmStatus);
+                        alarmMasterVO.setAlarmCode(alarmCode);
+                        alarmMasterVO.setSensorCode(insertVibrationSensorLowDataVO.getSensorCode());
+                        alarmMasterVO.setHistoryTagValue(String.valueOf(historyTagValue));
+                        alarmMasterVO.setHistoryAlarmValue(String.valueOf(historyAlarmValue));
+                        alarmMasterVO.setUpdateUser("system");
+                        alarmMasterVO.setCreateUser("system");
+
+                        if (alarmStatus > 0) {
+                            try {
+                                if(memoryAlarmStatusMap.get(alarmMasterVO.getAlarmCode()) != null) {
+                                    int memoryAlarmStatus = memoryAlarmStatusMap.get(alarmMasterVO.getAlarmCode());
+
+                                    if (alarmStatus > memoryAlarmStatus) {
+                                        memoryAlarmStatusMap.put(alarmMasterVO.getAlarmCode(), alarmMasterVO.getAlarmStatus());
+
+                                        alarmManagementDAO.updateAlarmMasterInfo(alarmMasterVO);
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        if(momoryLastAlarmStatusMap.get(alarmMasterVO.getAlarmCode()) != null) {
+                            int memoryLastAlarmStatus = momoryLastAlarmStatusMap.get(alarmMasterVO.getAlarmCode());
+
+                            try {
+                                if (momoryLastAlarmStatusMap != null && momoryLastAlarmStatusMap.size() > 0) {
+                                    momoryLastAlarmStatusMap.put(alarmMasterVO.getAlarmCode(), alarmMasterVO.getAlarmStatus());
+                                }
+
+                                if (alarmMasterVO.getAlarmStatus() != memoryLastAlarmStatus) {
                                     alarmManagementDAO.insertAlarmHistory(alarmMasterVO);
                                 }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-*/
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    } else {
-                        try {
-                            alarmManagementDAO.updateAlarmHistoryClearStatus(alarmMasterVO);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    int memoryMaxAlarmStatus = momoryMaxAlarmStatusMap.get(alarmMasterVO.getAlarmCode());
-
-                    try {
-
-                        if (alarmMasterVO.getAlarmStatus() > memoryMaxAlarmStatus) {
-                            alarmManagementDAO.insertAlarmHistory(alarmMasterVO);
-                        }
-
-                        if (momoryMaxAlarmStatusMap != null && momoryMaxAlarmStatusMap.size() > 0) {
-                            momoryMaxAlarmStatusMap.put(alarmMasterVO.getAlarmCode(), alarmMasterVO.getAlarmStatus());
-                        }
-                    }catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             }
@@ -304,19 +291,26 @@ public class MainServiceImpl implements MainService {
         try {
             // 두산 인프라코어 Mssql DB가 없어 임시로 Postgresql DB에 이력 데이터 저장
             // mainMssqlDAO.insertVibrationSensorLowDataGrouppingList(insertVibrationSensorLowDataVO);
-            mainDAO.insertVibrationSensorLowDataGrouppingList(insertVibrationSensorLowDataVO);
+            if(insertVibrationSensorLowDataVO.getSensorCode() != null) {
+                mainDAO.insertVibrationSensorLowDataGrouppingList(insertVibrationSensorLowDataVO);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            mainDAO.deleteVibrationSensorLowDataGrouppingList(insertVibrationSensorLowDataVO);
+            if(insertVibrationSensorLowDataVO.getSensorCode() != null) {
+                mainDAO.deleteVibrationSensorLowDataGrouppingList(insertVibrationSensorLowDataVO);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            mainDAO.insertVibrationSensorLowDataHotList(insertVibrationSensorLowDataVO);
+            if(insertVibrationSensorLowDataVO.getSensorCode() != null) {
+                mainDAO.insertVibrationSensorLowDataHotList(insertVibrationSensorLowDataVO);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -335,7 +329,9 @@ public class MainServiceImpl implements MainService {
                 if(dataCount > (sensorCount * 500)) {
                     minDate = mainDAO.selectVibrationSensorLowDataHotListMinDate(sensorCount * 500);
 
-                    mainDAO.deleteVibrationSensorLowDataHotList(minDate);
+                    if (minDate != null) {
+                        mainDAO.deleteVibrationSensorLowDataHotList(minDate);
+                    }
                 }
             }
         } catch (Exception e) {

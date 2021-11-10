@@ -79,6 +79,7 @@
                                         <div class="col-sm-9">
                                             <select id="alarmStatus" class="form-control" value="">
                                                 <option value="">- 알람상태 선택 -</option>
+                                                <option value="">전체</option>
                                                 <option value="1">경고</option>
                                                 <option value="2">알람</option>
                                             </select>
