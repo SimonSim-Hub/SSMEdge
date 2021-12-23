@@ -449,8 +449,8 @@
             , A.location_name AS locationName
             , A.x_axis_rms_velocity_mm_value AS xAxisRmsVelocityMmValue
             , A.z_axis_rms_velocity_mm_value AS zAxisRmsVelocityMmValue
-            , A.z_axis_peak_acceleration_value AS xAxisPeakAccelerationValue
-            , A.x_axis_peak_acceleration_value AS zAxisPeakAccelerationValue
+            , A.z_axis_peak_acceleration_value AS zAxisPeakAccelerationValue
+            , A.x_axis_peak_acceleration_value AS xAxisPeakAccelerationValue
             , A.temperature_c_value AS temperatureCValue
             , A.z_axis_peak_velocity_component_frequency_value AS zAxisPeakVelocityComponentFrequencyValue
             , A.x_axis_peak_velocity_component_frequency_value AS xAxisPeakVelocityComponentFrequencyValue

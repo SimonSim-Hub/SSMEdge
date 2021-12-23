@@ -84,7 +84,6 @@ public class VibrationSensorLowDataCommandLineRunner implements CommandLineRunne
                         }
 
                         long end = System.currentTimeMillis();
-                        System.out.println("D : "+(end-start));
 
                         if(delay > (end-start)) {
                             delay = (int) (delay-(end-start));
